@@ -32,7 +32,9 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
-    @issues = Issue.all
+    @issues = Issue.filter(
+      params.slice(:by_build_product, :by_build_branch,
+                   :by_build_name, :by_build_id))
     render json: @issues
   end
 

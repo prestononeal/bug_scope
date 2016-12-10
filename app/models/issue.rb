@@ -1,4 +1,6 @@
 class Issue < ApplicationRecord
+  include Filterable
+  
   belongs_to :build
   belongs_to :issue, optional: true
 
