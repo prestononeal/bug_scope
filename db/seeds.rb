@@ -24,3 +24,12 @@ Build.create! [
     product: "coolproduct"
   }
 ]
+
+# Add an issue to the first dev build
+Build.first.issues.create! [
+  {
+    issue_type: "fatalassert",
+    signature: "thiscrashed.c:108",
+    ticket: "jira-1"
+  }
+]
