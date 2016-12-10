@@ -33,3 +33,6 @@ Build.first.issues.create! [
     ticket: "jira-1"
   }
 ]
+
+# Add an instance of this issue
+Build.first.issues.first.instances.create!
