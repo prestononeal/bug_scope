@@ -21,7 +21,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
+# Use angular-rails-templates to allow us to define Angular templates in
+# the app/assets/javascripts folder
+gem 'angular-rails-templates'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

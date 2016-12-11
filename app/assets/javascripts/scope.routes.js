@@ -9,6 +9,18 @@ function config($urlRouterProvider, $stateProvider) {
 
   // If user goes to a path that doesn't exist, redirect to public root
   $urlRouterProvider.otherwise('/');
-  
+
+  $stateProvider
+    .state('issues', {
+      url: 'issues',
+      templateUrl: 'issues/_issues.html',
+      controller: 'IssuesController',
+      controllerAs: 'issuesCtrl',
+      resolve: {
+        issues: ['$http', function($http) {
+          return $http.get('/issues');
+        }]
+      }
+    });
 }
 })();

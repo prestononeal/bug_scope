@@ -1,6 +1,6 @@
 (function() {
 'use strict';
 
-angular.module('Scope', ['ui.router'])
+angular.module('Scope', ['ui.router', 'templates'])
 
 })();
