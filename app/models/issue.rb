@@ -7,6 +7,8 @@ class Issue < ApplicationRecord
   has_many :issues
   has_many :instances
 
+  default_scope { order(instances_count: :desc) }
+
   scope :build_product, -> (build_product) { joins(:build).where(:builds=>{:product=>build_product}) }
   scope :build_branch, -> (build_branch) { joins(:build).where(:builds=>{:branch=>build_branch}) }
   scope :build_name, -> (build_name) { joins(:build).where(:builds=>{:name=>build_name}) }
