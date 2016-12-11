@@ -1,0 +1,17 @@
+{
+  "name": "scope",
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "main": "index.js",
+  "authors": [
+    "Preston O'Neal <prestononeal@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/prestononeal/scope",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
