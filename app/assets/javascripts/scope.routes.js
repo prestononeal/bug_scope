@@ -11,8 +11,12 @@ function config($urlRouterProvider, $stateProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
+    .state('home', {
+      url: '/',
+      templateUrl: 'home/_home.html'
+    })
     .state('issues', {
-      url: 'issues',
+      url: '/issues',
       templateUrl: 'issues/_issues.html',
       controller: 'IssuesController',
       controllerAs: 'issuesCtrl',
