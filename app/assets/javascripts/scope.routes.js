@@ -21,8 +21,8 @@ function config($urlRouterProvider, $stateProvider) {
       controller: 'IssuesController',
       controllerAs: 'issuesCtrl',
       resolve: {
-        issues: ['$http', function($http) {
-          return $http.get('/issues');
+        issues: ['ScopeDataService', function(ScopeDataService) {
+          return ScopeDataService.getIssues();
         }]
       }
     })
@@ -32,8 +32,8 @@ function config($urlRouterProvider, $stateProvider) {
       controller: 'BuildsController',
       controllerAs: 'buildsCtrl',
       resolve: {
-        builds: ['$http', function($http) {
-          return $http.get('/builds');
+        builds: ['ScopeDataService', function(ScopeDataService) {
+          return ScopeDataService.getBuilds();
         }]
       }
     })
@@ -43,8 +43,8 @@ function config($urlRouterProvider, $stateProvider) {
       controller: 'IssuesController',
       controllerAs: 'issuesCtrl',
       resolve: {
-        issues: ['$http', '$stateParams', function($http, $stateParams) {
-          return $http.get('/issues?build_id=' + $stateParams.id)
+        issues: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
+          return ScopeDataService.getIssues({'build_id': $stateParams.id});
         }]
       }
     });
