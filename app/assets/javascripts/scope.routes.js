@@ -25,6 +25,17 @@ function config($urlRouterProvider, $stateProvider) {
           return $http.get('/issues');
         }]
       }
+    })
+    .state('builds', {
+      url: '/builds',
+      templateUrl: 'builds/_builds.html',
+      controller: 'BuildsController',
+      controllerAs: 'buildsCtrl',
+      resolve: {
+        builds: ['$http', function($http) {
+          return $http.get('/builds');
+        }]
+      }
     });
 }
 })();

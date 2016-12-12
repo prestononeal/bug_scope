@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Occurrences</th>
+      <th>Type</th>
+      <th>Signature</th>
+      <th>Ticket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="issue in $ctrl.issues">
+      <td>{{issue.instances_count}}</td>
+      <td>{{issue.issue_type}}</td>
+      <td>{{issue.signature}}</td>
+      <td>{{issue.ticket}}</td>
+    </tr>
+  </tbody>
+</table>
+<div ng-if="issues.length === 0" class="alert alert-danger">
+  <strong>Error!</strong> No issues returned.
+</div>

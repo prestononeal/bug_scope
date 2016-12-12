@@ -1,27 +1,2 @@
-<div class="col-sm-6">
-  <h3>Top issues:</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Type</th>
-        <th>Signature</th>
-        <th>Occurrences</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="issue in issuesCtrl.issues">
-        <td>{{issue.id}}</td>
-        <td>{{issue.issue_type}}</td>
-        <td>{{issue.signature}}</td>
-        <td>{{issue.instances_count}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div ng-if="issuesCtrl.issues.length === 0" class="alert alert-danger">
-  <strong>Error!</strong> No issues returned.
-</div>
-<div class="col-sm-6">
-  <ui-view></ui-view>
-</div>
+<h3>Top overall issues:</h3>
+<issue-list issues="issuesCtrl.issues"></issue-list>
