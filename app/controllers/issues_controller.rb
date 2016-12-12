@@ -39,10 +39,9 @@ class IssuesController < ApplicationController
     render json: instance
   end
 
-  # Gets related issues, based on signature
-  # Ignore our own issue and any that are already linked
+  # Gets related issues, based on signature. Ignore our own issue.
   def similar_to
-    issues = Issue.where(:issue_id => nil, :signature=>@issue.signature)
+    issues = Issue.where(:signature=>@issue.signature)
       .where.not(:id => @issue.id)
     render json: issues
   end
