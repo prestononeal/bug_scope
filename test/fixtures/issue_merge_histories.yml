@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue: one
+  issue: one
+  instance: one
+
+two:
+  issue: two
+  issue: two
+  instance: two

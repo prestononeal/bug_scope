@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212174021) do
+ActiveRecord::Schema.define(version: 20161212191250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20161212174021) do
     t.index ["issue_id"], name: "index_instances_on_issue_id", using: :btree
   end
 
+  create_table "issue_merge_histories", force: :cascade do |t|
+    t.integer  "old_issue_id"
+    t.integer  "new_issue_id"
+    t.integer  "instance_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["instance_id"], name: "index_issue_merge_histories_on_instance_id", using: :btree
+    t.index ["new_issue_id"], name: "index_issue_merge_histories_on_new_issue_id", using: :btree
+    t.index ["old_issue_id"], name: "index_issue_merge_histories_on_old_issue_id", using: :btree
+  end
+
   create_table "issues", force: :cascade do |t|
     t.string   "issue_type"
     t.text     "signature"
@@ -43,4 +54,7 @@ ActiveRecord::Schema.define(version: 20161212174021) do
 
   add_foreign_key "instances", "builds"
   add_foreign_key "instances", "issues"
+  add_foreign_key "issue_merge_histories", "instances"
+  add_foreign_key "issue_merge_histories", "issues", column: "new_issue_id"
+  add_foreign_key "issue_merge_histories", "issues", column: "old_issue_id"
 end
