@@ -4,11 +4,12 @@
 angular.module('Scope')
 .controller('IssueReportController', IssueReportController);
 
-IssueReportController.$inject = ['issue'];
-function IssueReportController(issue) {
+IssueReportController.$inject = ['issue', 'similar'];
+function IssueReportController(issue, similar) {
   var issueReportCtrl = this;
 
   issueReportCtrl.issue = issue.data;
+  issueReportCtrl.similar = similar.data
 }
 
 })();

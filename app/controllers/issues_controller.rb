@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_issue, only: [:show]
+  before_action :set_issue, only: [:show, :similar_to]
 
   # Report an issue.
   # Will create an instance and possibly a new issue if it hasn't been reported.
@@ -39,11 +39,19 @@ class IssuesController < ApplicationController
     render json: instance
   end
 
+  # Gets related issues, based on signature
+  # Ignore our own issue and any that are already linked
+  def similar_to
+    issues = Issue.where(:issue_id => nil, :signature=>@issue.signature)
+      .where.not(:id => @issue.id)
+    render json: issues
+  end
+
   # GET /issues
   # GET /issues.json
   def index
     @issues = Issue.filter(
-      params.slice(:build_product, :build_branch, :build_name, :build_id)
+      params.slice(:build_product, :build_branch, :build_name, :build_id, :similar_to)
       )
     render json: @issues
   end

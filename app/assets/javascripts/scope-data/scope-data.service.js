@@ -25,8 +25,18 @@ function ScopeDataService($http) {
     return $http.get(getString);
   };
 
-  service.getIssue = function(issueId) {
-    return $http.get('/issues/' + issueId);
+  service.getIssue = function(issueId, options) {
+    // Pass in an options array where the values
+    // correspond to the nested routes in the 
+    // GET REST handler.
+    console.log('issue ' + issueId);
+    var getString = '/issues/' + issueId + '/';
+    if(options !== undefined) {
+      for(var index in options) {
+        getString += options[index] + '/';
+      }
+    }
+    return $http.get(getString);
   }
 
   service.getBuilds = function() {

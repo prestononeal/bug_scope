@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: 'application#angular'
   resources :issues, only: [:index, :show] do
     post 'report', :on => :collection
+    get 'similar_to', :on => :member
   end
   resources :instances, only: [:index, :show]
   resources :builds, only: [:index, :show]

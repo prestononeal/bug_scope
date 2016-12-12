@@ -56,6 +56,9 @@ function config($urlRouterProvider, $stateProvider) {
       resolve: {
         issue: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
           return ScopeDataService.getIssue($stateParams.id);
+        }],
+        similar: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
+          return ScopeDataService.getIssue($stateParams.id, ['similar_to']);
         }]
       }
     });
