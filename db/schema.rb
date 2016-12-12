@@ -25,25 +25,25 @@ ActiveRecord::Schema.define(version: 20161211214842) do
 
   create_table "instances", force: :cascade do |t|
     t.integer  "issue_id"
+    t.integer  "build_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["build_id"], name: "index_instances_on_build_id", using: :btree
     t.index ["issue_id"], name: "index_instances_on_issue_id", using: :btree
   end
 
   create_table "issues", force: :cascade do |t|
     t.string   "issue_type"
     t.text     "signature"
-    t.integer  "build_id"
     t.integer  "issue_id"
     t.string   "ticket"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "instances_count", default: 0
-    t.index ["build_id"], name: "index_issues_on_build_id", using: :btree
     t.index ["issue_id"], name: "index_issues_on_issue_id", using: :btree
   end
 
+  add_foreign_key "instances", "builds"
   add_foreign_key "instances", "issues"
-  add_foreign_key "issues", "builds"
   add_foreign_key "issues", "issues"
 end

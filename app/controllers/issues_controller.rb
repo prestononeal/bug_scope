@@ -18,12 +18,22 @@ class IssuesController < ApplicationController
                                     :branch => params[:build_info][:branch], 
                                     :name => params[:build_info][:name])
 
-    # Check if issue with this signature and type exists for this build. If not, create one
+    # Check if an issue with this signature and type exists for this build. If not, create one
+    # This will result in some duplicate issues when found across different builds.
+    # Those duplicates can be linked later when the issue is triaged.
+    created = false
     issue = build.issues.where(:issue_type => params[:issue_info][:issue_type], 
-                               :signature => params[:issue_info][:signature]).first_or_create
+                               :signature => params[:issue_info][:signature]).first_or_create do |obj|
+      # If the issue gets created, the instance linking the issue and build will also get created
+      created = true
+    end
 
     # Create an instance that points to this build and issue
-    instance = issue.instances.create
+    if !created
+      instance = issue.instances.create(:build => build)
+    else
+      instance = issue.instances.where(:build => build).first
+    end
 
     # Return the instance info in JSON
     render json: instance

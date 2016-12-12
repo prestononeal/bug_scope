@@ -14,7 +14,22 @@ Build.create! [
     product: "coolproduct"
   },
   {
+    name: "2",
+    branch: "dev",
+    product: "coolproduct"
+  },
+  {
+    name: "3",
+    branch: "dev",
+    product: "coolproduct"
+  },
+  {
     name: "1",
+    branch: "tst",
+    product: "coolproduct"
+  },
+  {
+    name: "2",
     branch: "tst",
     product: "coolproduct"
   },
@@ -25,14 +40,36 @@ Build.create! [
   }
 ]
 
-# Add an issue to the first dev build
-Build.first.issues.create! [
+# Create an issue
+Issue.create! [
   {
     issue_type: "fatalassert",
     signature: "thiscrashed.c:108",
     ticket: "jira-1"
+  },
+  {
+    issue_type: "hardfault",
+    signature: "PC0XDEADBEEF",
+    ticket: "jira-2"
   }
 ]
 
-# Add an instance of this issue
-Build.first.issues.first.instances.create!
+# Create instances of these issues from the first build
+Issue.first.instances.create! [
+  {
+    build: Build.first
+  },
+  {
+    build: Build.first
+  },
+  {
+    build: Build.first
+  }
+]
+
+Issue.last.instances.create! [
+  {
+    build: Build.first
+  }
+]
+
