@@ -25,6 +25,9 @@ gem 'jbuilder', '~> 2.5'
 # the app/assets/javascripts folder
 gem 'angular-rails-templates'
 
+# Use paper_trail to track changes to the instance models as they get linked to other issues
+gem 'paper_trail'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

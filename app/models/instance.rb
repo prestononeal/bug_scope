@@ -1,6 +1,5 @@
 class Instance < ApplicationRecord
+  has_paper_trail
   belongs_to :issue, :counter_cache => true
   belongs_to :build
-
-  has_many :issue_merge_histories
 end
