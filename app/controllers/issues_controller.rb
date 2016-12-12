@@ -58,7 +58,7 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    render json: @issue
+    render json: @issue.to_json(:include => :builds) 
   end
 
   private
