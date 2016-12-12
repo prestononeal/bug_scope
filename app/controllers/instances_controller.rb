@@ -1,5 +1,5 @@
 class InstancesController < ApplicationController
-  before_action :set_instance, only: [:show]
+  before_action :set_instance, only: [:show, :update]
 
   # GET /instances
   # GET /instances.json

@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_issue, only: [:show, :similar_to]
+  before_action :set_issue, only: [:show, :similar_to, :merge_to]
 
   # Report an issue.
   # Will create an instance and possibly a new issue if it hasn't been reported.
@@ -37,6 +37,17 @@ class IssuesController < ApplicationController
 
     # Return the instance info in JSON
     render json: instance
+  end
+
+  # Merges this issue to another one by updates all child instances to point to the given issue.
+  # Returns the parent issue info
+  def merge_to
+    issue = Issue.find(params[:parent_id])
+
+    # update the children instances to point to the given issue
+    @issue.instances.update(:issue => issue)
+
+    render json: issue
   end
 
   # Gets related issues, based on signature. Ignore our own issue.

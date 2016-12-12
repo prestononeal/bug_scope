@@ -1,6 +1,7 @@
 <table class="table table-reflow">
   <thead>
     <tr>
+      <th>Occurrences</th>
       <th>Type</th>
       <th>Signature</th>
       <th>Ticket</th>
@@ -8,6 +9,7 @@
   </thead>
   <tbody>
     <tr ui-sref="issue-report({id: $ctrl.issue.id})">
+      <td>{{$ctrl.issue.instances_count}}</td>
       <td>{{$ctrl.issue.issue_type}}</td>
       <td>{{$ctrl.issue.signature}}</td>
       <td>{{$ctrl.issue.ticket}}</td>

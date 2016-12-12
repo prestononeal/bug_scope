@@ -25,4 +25,4 @@ node_modules
 bower_components
 
 # Ignore database backup data
-db/data.yml
+db/data*.yml
