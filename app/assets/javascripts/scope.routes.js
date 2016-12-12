@@ -36,6 +36,17 @@ function config($urlRouterProvider, $stateProvider) {
           return $http.get('/builds');
         }]
       }
+    })
+    .state('report', {
+      url: '/builds/{id}',
+      templateUrl: 'build-report/_build-report.html',
+      controller: 'IssuesController',
+      controllerAs: 'issuesCtrl',
+      resolve: {
+        issues: ['$http', '$stateParams', function($http, $stateParams) {
+          return $http.get('/issues?build_id=' + $stateParams.id)
+        }]
+      }
     });
 }
 })();
