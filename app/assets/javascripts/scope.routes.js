@@ -51,11 +51,11 @@ function config($urlRouterProvider, $stateProvider) {
     .state('issue-report', {
       url: '/issues/{id}',
       templateUrl: 'issue-report/_issue-report.html',
-      controller: 'IssuesController',
-      controllerAs: 'issuesCtrl',
+      controller: 'IssueReportController',
+      controllerAs: 'issueReportCtrl',
       resolve: {
-        issues: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
-          return ScopeDataService.getIssues();
+        issue: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
+          return ScopeDataService.getIssue($stateParams.id);
         }]
       }
     });

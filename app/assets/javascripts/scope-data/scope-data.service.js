@@ -25,6 +25,10 @@ function ScopeDataService($http) {
     return $http.get(getString);
   };
 
+  service.getIssue = function(issueId) {
+    return $http.get('/issues/' + issueId);
+  }
+
   service.getBuilds = function() {
     return $http.get('/builds');
   };
