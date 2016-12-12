@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="issue in $ctrl.issues">
+    <tr ng-repeat="issue in $ctrl.issues" ui-sref="issue-report({id: issue.id})">
       <td>{{issue.instances_count}}</td>
       <td>{{issue.issue_type}}</td>
       <td>{{issue.signature}}</td>

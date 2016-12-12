@@ -37,7 +37,7 @@ function config($urlRouterProvider, $stateProvider) {
         }]
       }
     })
-    .state('report', {
+    .state('build-report', {
       url: '/builds/{id}',
       templateUrl: 'build-report/_build-report.html',
       controller: 'IssuesController',
@@ -45,6 +45,17 @@ function config($urlRouterProvider, $stateProvider) {
       resolve: {
         issues: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
           return ScopeDataService.getIssues({'build_id': $stateParams.id});
+        }]
+      }
+    })
+    .state('issue-report', {
+      url: '/issues/{id}',
+      templateUrl: 'issue-report/_issue-report.html',
+      controller: 'IssuesController',
+      controllerAs: 'issuesCtrl',
+      resolve: {
+        issues: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
+          return ScopeDataService.getIssues();
         }]
       }
     });

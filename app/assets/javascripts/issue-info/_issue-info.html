@@ -1,0 +1,16 @@
+<table class="table table-reflow">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Signature</th>
+      <th>Ticket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ui-sref="issue-report({id: $ctrl.issue.id})">
+      <td>{{$ctrl.issue.issue_type}}</td>
+      <td>{{$ctrl.issue.signature}}</td>
+      <td>{{$ctrl.issue.ticket}}</td>
+    </tr>
+  </tbody>
+</table>

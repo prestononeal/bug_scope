@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="build in $ctrl.builds" class="pointer" ui-sref="report({id: build.id})">
+    <tr ng-repeat="build in $ctrl.builds" ui-sref="build-report({id: build.id})">
       <td>{{build.product}}</td>
       <td>{{build.branch}}</td>
       <td>{{build.name}}</td>
