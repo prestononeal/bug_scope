@@ -4,7 +4,7 @@ class Issue < ApplicationRecord
   belongs_to :issue, optional: true
   has_many :issues
   has_many :instances
-  has_many :builds, through: :instances
+  has_many :builds, ->{ distinct }, through: :instances
 
   default_scope { order(instances_count: :desc) }
 

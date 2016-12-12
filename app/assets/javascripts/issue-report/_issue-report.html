@@ -1,6 +1,9 @@
 <h3>Info for Issue #{{issueReportCtrl.issue.id}}:</h3>
 <issue-info issue="issueReportCtrl.issue"></issue-info>
 
+<h3>Found on builds:</h3>
+<build-list builds="issueReportCtrl.issue.builds"></build-list>
+
 <div ng-if="issueReportCtrl.similar.length">
   <h3>Similar issues:</h3>
   <issue-list issues="issueReportCtrl.similar"></issue-list>
