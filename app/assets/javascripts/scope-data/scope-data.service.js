@@ -29,7 +29,6 @@ function ScopeDataService($http) {
     // Pass in an options array where the values
     // correspond to the nested routes in the 
     // GET REST handler.
-    console.log('issue ' + issueId);
     var getString = '/issues/' + issueId + '/';
     if(options !== undefined) {
       for(var index in options) {
