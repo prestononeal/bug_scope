@@ -44,6 +44,8 @@ class IssuesController < ApplicationController
   def merge_to
     issue = Issue.find(params[:parent_id])
 
+    # TODO: don't allow linking issues if they have conflicting tickets
+
     # update the children instances to point to the given issue
     @issue.instances.update(:issue => issue)
 
