@@ -5,6 +5,7 @@
       <th>Type</th>
       <th>Signature</th>
       <th>Ticket</th>
+      <th ng-if="$ctrl.parentId">Link To Parent #{{$ctrl.parentId}}</th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,7 @@
       <td>{{issue.issue_type}}</td>
       <td>{{issue.signature}}</td>
       <td>{{issue.ticket}}</td>
+      <td ng-if="$ctrl.parentId">Link image here</td>
     </tr>
   </tbody>
 </table>
