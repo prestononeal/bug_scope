@@ -6,7 +6,7 @@ angular.module('Scope')
   templateUrl: 'issue-list/_issue-list.html',
   bindings: {
     issues: '<',
-    parentId: '=?'
+    parentId: '<'
   }
 });
 

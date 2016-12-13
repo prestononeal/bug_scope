@@ -1,6 +1,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Occurrences</th>
       <th>Type</th>
       <th>Signature</th>
@@ -9,12 +10,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="issue in $ctrl.issues" ui-sref="issue-report({id: issue.id})">
-      <td>{{issue.instances_count}}</td>
-      <td>{{issue.issue_type}}</td>
-      <td>{{issue.signature}}</td>
-      <td>{{issue.ticket}}</td>
-      <td ng-if="$ctrl.parentId">Link image here</td>
+    <tr ng-if="issue.instances_count" ng-repeat="issue in $ctrl.issues">
+      <td ui-sref="issue-report({id: issue.id})">{{issue.id}}</td>
+      <td ui-sref="issue-report({id: issue.id})">{{issue.instances_count}}</td>
+      <td ui-sref="issue-report({id: issue.id})">{{issue.issue_type}}</td>
+      <td ui-sref="issue-report({id: issue.id})">{{issue.signature}}</td>
+      <td ui-sref="issue-report({id: issue.id})">{{issue.ticket}}</td>
+      <td ng-if="$ctrl.parentId">
+        <merge-issue-flow parent-id="$ctrl.parentId" child-id="issue.id"></merge-issue-flow>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -11,6 +11,12 @@ ScopeDataService.$inject = ['$http'];
 function ScopeDataService($http) {
   var service = this;
 
+  service.mergeTo = function(child, parent) {
+    // Merge the child issue to the parent
+    return $http.put('/issues/' + child + '/merge_to',
+                     {parent_id: parent});
+  }
+
   service.getIssues = function(options) {
     // Pass in an options hash where the key/values 
     // correspond to the filtering parameters in the 
