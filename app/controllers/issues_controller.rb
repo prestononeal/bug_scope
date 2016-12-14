@@ -44,6 +44,11 @@ class IssuesController < ApplicationController
   def merge_to
     issue = Issue.find(params[:parent_id])
 
+    # Allow ticket fields to stay blank if neither are set, but
+    # temporarily give them blank strings for simpler logic below
+    @issue.ticket = '' if @issue.ticket.nil?
+    issue.ticket = '' if issue.ticket.nil?
+
     # Don't allow linking issues if they have conflicting tickets
     unless @issue.ticket.empty? or issue.ticket.empty?
       if @issue.ticket.downcase != issue.ticket.downcase

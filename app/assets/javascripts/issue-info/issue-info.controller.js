@@ -7,18 +7,19 @@ angular.module('Scope')
 IssueInfoController.$inject = ['ScopeDataService'];
 function IssueInfoController(ScopeDataService) {
   var $ctrl = this;
+  $ctrl.linkToId = '';
 
   $ctrl.updateTicket = function() {
     ScopeDataService.updateIssue($ctrl.issue.id, {ticket: $ctrl.issue.ticket})
     .then(function(success) {
       $ctrl.issue.ticket = success.data.ticket;
-      $ctrl.info = 'Update successful';
+      $ctrl.ticketInfo = 'Update successful';
     })
     .catch(function(error) {
-      $ctrl.info = 'Update failed';
+      $ctrl.ticketInfo = 'Update failed';
     });
-    $ctrl.info = 'Updating';
-  }
+    $ctrl.ticketInfo = 'Updating';
+  };
 }
 
 })();

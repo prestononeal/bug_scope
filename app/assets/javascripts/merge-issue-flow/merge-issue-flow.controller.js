@@ -26,6 +26,11 @@ function MergeIssueFlowController(ScopeDataService) {
       $ctrl.state++;
       ScopeDataService.mergeTo($ctrl.childId, $ctrl.parentId)
       .then(function (response) {
+        if(response.data.errors) {
+          $ctrl.message = 'Linking failed: ' + response.data.errors;
+          $ctrl.state = 0;
+          return;
+        }
         $ctrl.message = 'Linked!';
         $ctrl.state++;
       })
