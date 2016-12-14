@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_issue, only: [:show, :similar_to, :merge_to]
+  before_action :set_issue, only: [:show, :similar_to, :merge_to, :update]
 
   # Report an issue.
   # Will create an instance and possibly a new issue if it hasn't been reported.
@@ -74,9 +74,24 @@ class IssuesController < ApplicationController
     render json: @issue.to_json(:include => :builds) 
   end
 
+  # PATCH/PUT /issues/1
+  # PATCH/PUT /issues/1.json
+  def update
+    if @issue.update(issue_params)
+      show
+    else
+      render json: @issue.errors, status: :unprocessable_entity
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_issue
       @issue = Issue.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def issue_params
+      params.require(:issue).permit(:ticket)
     end
 end

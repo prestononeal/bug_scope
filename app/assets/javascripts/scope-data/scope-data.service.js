@@ -47,6 +47,10 @@ function ScopeDataService($http) {
   service.getBuilds = function() {
     return $http.get('/builds');
   };
+
+  service.updateIssue = function(issueId, params) {
+    return $http.put('/issues/' + issueId, {issue: params})
+  };
 }
 
 })();
