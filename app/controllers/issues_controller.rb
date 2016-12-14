@@ -44,12 +44,31 @@ class IssuesController < ApplicationController
   def merge_to
     issue = Issue.find(params[:parent_id])
 
-    # TODO: don't allow linking issues if they have conflicting tickets
+    # Don't allow linking issues if they have conflicting tickets
+    unless @issue.ticket.empty? or issue.ticket.empty?
+      if @issue.ticket.downcase != issue.ticket.downcase
+        return render :json => {:errors => 'Issues have conflicting tickets'}
+      end
+    end
+
+    if @issue.ticket.downcase != issue.ticket.downcase
+      # If one issue has a ticket and the other doesn't, update the one without it.
+      # We'll do it for both instead of just the parent issue's
+      if @issue.ticket.empty?
+        logger.debug('Setting issue ticket to first one')
+        @issue.ticket = issue.ticket
+        @issue.save
+      else
+        logger.debug('Setting issue ticket to second one')
+        issue.ticket = @issue.ticket
+        issue.save
+      end
+    end
 
     # update the children instances to point to the given issue
     @issue.instances.update(:issue => issue)
 
-    render json: issue
+    render json: @issue
   end
 
   # Gets related issues, based on signature. Ignore our own issue.
