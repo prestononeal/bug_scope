@@ -45,13 +45,26 @@ function MergeIssueFlowController(ScopeDataService) {
     // If the state is 3, the issue is already linked, do nothing
   }
 
-  $ctrl.resetState = function() {
+  $ctrl.generateLinkPromptMsg = function() {
     $ctrl.message = 'Link ' + $ctrl.childId + ' to ' + $ctrl.parentId + '?';
+  }
+
+  $ctrl.resetState = function() {
+    $ctrl.generateLinkPromptMsg();
     $ctrl.state = 0;
   }
 
   $ctrl.$onInit = function() {
     $ctrl.resetState();
+  }
+
+  $ctrl.$onChanges = function(changes) {
+    // If the parent ID or child ID changed, update the prompt 
+    // if the user hasn't taken action yet
+    if((changes.parentId || changes.childId) && $ctrl.state === 0) {
+      $ctrl.generateLinkPromptMsg();
+    }
+
   }
 }
 
