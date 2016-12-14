@@ -5,7 +5,7 @@
       <th>Type</th>
       <th>Signature</th>
       <th>Ticket</th>
-      <th ng-if="$ctrl.issue.instances_count">Link to</th>
+      <th>Link to</th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +17,7 @@
       <div ng-if="$ctrl.ticketInfo">{{$ctrl.ticketInfo}}</div></td>
       <td ng-if="$ctrl.issue.instances_count"><form novalidate><input type="text" ng-model="$ctrl.linkToId" ng-blur="$ctrl.linkTo()"></input></form>
       <div ng-if="$ctrl.linkInfo">{{$ctrl.linkInfo}}</div><merge-issue-flow parent-id="$ctrl.linkToId" child-id="$ctrl.issue.id"></merge-issue-flow></td>
+      <td ng-if="$ctrl.issue.instances_count == 0">No instances to link</div>
     </tr>
   </tbody>
 </table>
