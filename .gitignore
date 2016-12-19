@@ -20,8 +20,4 @@
 # Ignore Byebug command history file.
 .byebug_history
 
-# Ignore npm and bower modules/components
-node_modules
-bower_components
-
 *scope*backup*
