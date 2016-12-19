@@ -66,7 +66,7 @@ end
 # Create a bunch of random issues and instances
 # from a given build
 builds = Build.all
-20000.times {
+2000.times {
   it = ISSUE_TEMPLATES.sample
   # Use first_or_create instead of create so we don't
   # create duplicate issues for a build. Their issuetypes and signature
