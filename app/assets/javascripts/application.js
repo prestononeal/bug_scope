@@ -3,5 +3,7 @@
 //= require angular
 //= require angular-rails-templates
 //= require angular-ui-router
+//= require chartjs
+//= require angular-chartjs
 //= require scope.js
 //= require_tree .

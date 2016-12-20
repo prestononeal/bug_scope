@@ -40,8 +40,8 @@ function config($urlRouterProvider, $stateProvider) {
     .state('build-report', {
       url: '/builds/{id}',
       templateUrl: 'build-report/_build-report.html',
-      controller: 'IssuesController',
-      controllerAs: 'issuesCtrl',
+      controller: 'BuildReportController',
+      controllerAs: 'buildRepCtrl',
       resolve: {
         issues: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
           return ScopeDataService.getIssues({'build_id': $stateParams.id});
