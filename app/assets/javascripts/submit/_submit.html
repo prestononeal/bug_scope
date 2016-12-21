@@ -3,7 +3,6 @@ Use the form below to report issues. Issues will be timestamped when this form w
 <br><br>
 
 <div class="container">
-  <div ng-if="submitCtrl.valid"><button class="btn btn-default">Submit report</button><br><br></div>
   Build info:
   <div class="well">
     <form class="form-inline" name="buildInfo" novalidate>
@@ -52,6 +51,8 @@ Use the form below to report issues. Issues will be timestamped when this form w
       <div class="form-group row">
         <div class="col-xs-10 col-xs-offset-2">
           <button class="btn btn-default" ng-click="submitCtrl.addIssue()">Add issue to report</button>
+          <button ng-if="submitCtrl.valid" class="btn btn-default">Submit report</button>
+          <span ng-if="!submitCtrl.valid">Can't submit report without more info</span>
         </div>
       </div>
     </form>

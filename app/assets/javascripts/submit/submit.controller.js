@@ -25,6 +25,14 @@ function SubmitController() {
   submitCtrl.newIssue.signature = '';
   submitCtrl.newIssue.count = 0;
 
+  submitCtrl.validateForm = function() {
+    if (submitCtrl.report.issues.length) {
+      submitCtrl.valid = true;
+    } else {
+      submitCtrl.valid = false;
+    }
+  };
+
   submitCtrl.addIssue = function() {
     submitCtrl.report.issues.unshift(
       {
@@ -33,10 +41,13 @@ function SubmitController() {
         count: submitCtrl.newIssue.count
       }
     );
+
+    submitCtrl.validateForm();
   };
 
   submitCtrl.removeIssue = function(index) {
     submitCtrl.report.issues.splice(index, 1);
+    submitCtrl.validateForm();
   };
 }
 
