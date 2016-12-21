@@ -61,6 +61,12 @@ function config($urlRouterProvider, $stateProvider) {
           return ScopeDataService.getIssue($stateParams.id, ['similar_to']);
         }]
       }
+    })
+    .state('submit', {
+      url: '/submit',
+      templateUrl: 'submit/_submit.html',
+      controller: 'SubmitController',
+      controllerAs: 'submitCtrl'
     });
 }
 })();
