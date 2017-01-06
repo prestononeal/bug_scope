@@ -25,7 +25,10 @@ function ScopeDataService($http) {
     if(options !== undefined) {
       getString += '?';
       for(var key in options) {
-        getString += key + '=' + options[key];
+        getString += key
+        if (options[key]) {
+          getString+= '=' + options[key];
+        }
       }
     }
     return $http.get(getString);

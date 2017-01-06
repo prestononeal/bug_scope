@@ -86,8 +86,9 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
+    logger.info(params.slice(:all_issues)).to_s
     @issues = Issue.filter(
-      params.slice(:build_product, :build_branch, :build_name, :build_id, :similar_to)
+      params.slice(:all_with_instances_count, :build_product, :build_branch, :build_name, :build_id, :similar_to)
       )
     render json: @issues
   end
@@ -111,7 +112,7 @@ class IssuesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_issue
-      @issue = Issue.find(params[:id])
+      @issue = Issue.all_with_instances_count.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

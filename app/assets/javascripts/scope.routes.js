@@ -22,7 +22,7 @@ function config($urlRouterProvider, $stateProvider) {
       controllerAs: 'issuesCtrl',
       resolve: {
         issues: ['ScopeDataService', function(ScopeDataService) {
-          return ScopeDataService.getIssues();
+          return ScopeDataService.getIssues({'all_with_instances_count': null});
         }]
       }
     })
