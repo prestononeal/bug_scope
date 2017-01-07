@@ -10,7 +10,7 @@ function IssueInfoController(ScopeDataService) {
   $ctrl.linkToId = '';
 
   $ctrl.updateTicket = function() {
-    ScopeDataService.updateIssue($ctrl.issue.id, {ticket: $ctrl.issue.ticket})
+    ScopeDataService.updateIssue($ctrl.issue.id, {note: $ctrl.issue.note, ticket: $ctrl.issue.ticket})
     .then(function(success) {
       $ctrl.issue.ticket = success.data.ticket;
       $ctrl.ticketInfo = 'Update successful';

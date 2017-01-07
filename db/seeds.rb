@@ -85,7 +85,7 @@ builds = Build.all
 
 # Create some tickets we can assign to some of the issues
 issues = Issue.all
-1.upto 500 do |i|
+1.upto 100 do |i|
   iss = issues.sample(1)[0]
   iss.ticket = 'jira-' + i.to_s
   iss.save
