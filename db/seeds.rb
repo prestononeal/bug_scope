@@ -66,7 +66,7 @@ end
 # Create a bunch of random issues and instances
 # from a given build
 builds = Build.all
-2000.times {
+500.times {
   it = ISSUE_TEMPLATES.sample
   # Use first_or_create instead of create so we don't
   # create duplicate issues for a build. Their issuetypes and signature
@@ -85,7 +85,7 @@ builds = Build.all
 
 # Create some tickets we can assign to some of the issues
 issues = Issue.all
-1.upto 100 do |i|
+1.upto 50 do |i|
   iss = issues.sample(1)[0]
   iss.ticket = 'jira-' + i.to_s
   iss.save

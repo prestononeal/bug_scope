@@ -11,4 +11,5 @@ class Issue < ApplicationRecord
   scope :build_branch, -> (build_branch) { joins(:builds).where(:builds=>{:branch=>build_branch}).group('issues.id').select('issues.*, count(issues.id) as instances_count').order("instances_count DESC") }
   scope :build_name, -> (build_name) { joins(:builds).where(:builds=>{:name=>build_name}).group('issues.id').select('issues.*, count(issues.id) as instances_count').order("instances_count DESC") }
   scope :build_id, -> (build_id) { joins(:builds).where(:builds=>{:id=>build_id}).group('issues.id').select('issues.*, count(issues.id) as instances_count').order("instances_count DESC") }
+  scope :signature, -> (signature) { joins(:builds).where(:signature=>signature).group('issues.id').select('issues.*, count(issues.id) as instances_count').order("instances_count DESC") }
 end

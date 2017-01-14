@@ -9,7 +9,7 @@ function IssueReportController(issue, similar) {
   var issueReportCtrl = this;
 
   issueReportCtrl.issue = issue.data;
-  issueReportCtrl.similar = similar.data
+  issueReportCtrl.similar = similar.data;
 }
 
 })();

@@ -78,8 +78,8 @@ class IssuesController < ApplicationController
 
   # Gets related issues, based on signature. Ignore our own issue.
   def similar_to
-    issues = Issue.where(:signature=>@issue.signature)
-      .where.not(:id => @issue.id)
+    issues = Issue.signature(@issue.signature)
+
     render json: issues
   end
 
@@ -88,7 +88,7 @@ class IssuesController < ApplicationController
   def index
     logger.info(params.slice(:all_issues)).to_s
     @issues = Issue.filter(
-      params.slice(:all_with_instances_count, :build_product, :build_branch, :build_name, :build_id, :similar_to)
+      params.slice(:all_with_instances_count, :build_product, :build_branch, :build_name, :build_id, :similar_to, :signature)
       )
     render json: @issues
   end
