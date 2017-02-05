@@ -1,24 +1,9 @@
-# README
+# SCOPE
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application was written to help triage large number of crashes found between different test runs across different builds. Scope works as-is, but is intended to be viewed as a prototype and has lots of room for improvement. 
 
-Things you may want to cover:
+Scope keeps track of "issues" found while testing builds. These issues can include crashes or any other problems that can be defined with a "type" and a "signature".
 
-* Ruby version
+The cumulative total of all issues across all builds can be viewed in aggregate, or the individual builds can be inspected to see which issues were found. Issues are sorted by number of occurrences to help find the most common issues to help prioritize the resolution of them.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Tickets can be attached to issues (eg. a scrum task), and duplicate issues can be merged together. When viewing a specific issue, similar issues based on the signature will be displayed to provide hints of possible duplicates in other builds.
