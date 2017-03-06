@@ -16,9 +16,16 @@ gem 'jquery-rails', '~>4.2', '>=4.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
+gem 'database_cleaner', '~>1.5', '>=1.5.3'
+gem 'factory_girl_rails', '~>4.7', '>=4.7.0'
+gem 'faker', '~>1.6', '>=1.6.6'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'rspec-rails', '~> 3.5', '>=3.5.2'
+  gem 'capybara', '~> 2.10', '>=2.10.1'
+  gem 'poltergeist', '~> 1.11', '>=1.11.0'
 end
 
 group :development do
