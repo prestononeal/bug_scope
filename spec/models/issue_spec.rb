@@ -11,8 +11,6 @@ describe Issue, type: :model do
     it { expect(issue).to be_persisted }
     it { expect(issue.issue_type).to_not be_nil }
     it { expect(issue.signature).to_not be_nil }
-    it { expect(issue.ticket).to_not be_nil }
-    it { expect(issue.state).to_not be_nil }
     it { expect(issue.note).to_not be_nil }
     it { expect(issue.created_at).to_not be_nil }
     it { expect(issue.updated_at).to_not be_nil }
