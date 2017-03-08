@@ -9,6 +9,6 @@
   # Go through and create random associations of builds and issues through instances
   iss = Issue.all.sample
   bld = Build.all.sample
-  FactoryGirl.create(:instance, :issue_id => iss.id, :build_id => bld.id)
+  FactoryGirl.create(:instance, :issue_id=>iss.id, :build_id=>bld.id)
 }
 
