@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Instance, type: :model do
+describe Instance, :model do
   include_context "db_cleanup", :transaction
   before(:all) do
     issue = FactoryGirl.create(:issue)

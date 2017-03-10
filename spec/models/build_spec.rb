@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Build, type: :model do
+describe Build, :model do
   include_context "db_cleanup", :transaction
   before(:all) do
     @build = FactoryGirl.create(:build)
