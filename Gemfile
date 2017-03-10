@@ -26,6 +26,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>=3.5.2'
   gem 'capybara', '~> 2.10', '>=2.10.1'
   gem 'poltergeist', '~> 1.11', '>=1.11.0'
+  gem 'simplecov', '~>0', '>=0.13', :require => false
 end
 
 group :development do
