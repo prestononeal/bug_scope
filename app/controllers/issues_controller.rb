@@ -12,17 +12,23 @@ class IssuesController < ApplicationController
   # =>   branch
   # =>   name
   def report
+    begin
+      build_info = params.require(:build_info)
+      issue_info = params.require(:issue_info)
+    rescue ActionController::ParameterMissing
+      return params_missing
+    end
     # Get the build for this issue. If it doesn't exist, create it
-    build = Build.find_or_create_by(:product => params[:build_info][:product], 
-                                    :branch => params[:build_info][:branch], 
-                                    :name => params[:build_info][:name])
+    build = Build.find_or_create_by(:product => build_info[:product], 
+                                    :branch => build_info[:branch], 
+                                    :name => build_info[:name])
 
     # Check if an issue with this signature and type exists for this build. If not, create one
     # This will result in some duplicate issues when found across different builds.
     # Those duplicates can be linked later when the issue is triaged.
     created = false
-    issue = build.issues.where(:issue_type => params[:issue_info][:issue_type], 
-                               :signature => params[:issue_info][:signature]).first_or_create do |obj|
+    issue = build.issues.where(:issue_type => issue_info[:issue_type], 
+                               :signature => issue_info[:signature]).first_or_create do |obj|
       # If the issue gets created, the instance linking the issue and build will also get created
       created = true
     end
@@ -107,6 +113,13 @@ class IssuesController < ApplicationController
       render json: @issue.errors, status: :unprocessable_entity
     end
   end
+
+  protected
+    def params_missing(param=nil)
+      msg = "Missing parameter"
+      msg += ": #{param}" unless param.nil?
+      render json: { errors: { full_messages:[msg] } }, status: :unprocessable_entity
+    end
 
   private
     # Use callbacks to share common setup or constraints between actions.
