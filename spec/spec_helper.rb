@@ -18,8 +18,11 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require_relative 'support/database_cleaners.rb'
+require_relative 'support/api_helper.rb'
 
 RSpec.configure do |config|
+  config.include ApiHelper, :type=>:request
+  
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
