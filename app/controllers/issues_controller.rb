@@ -16,7 +16,7 @@ class IssuesController < ApplicationController
       build_info = params.require(:build_info)
       issue_info = params.require(:issue_info)
     rescue ActionController::ParameterMissing
-      return params_missing
+      return invalid_params('Missing parameter')
     end
     # Get the build for this issue. If it doesn't exist, create it
     build = Build.find_or_create_by(:product => build_info[:product], 
@@ -47,7 +47,15 @@ class IssuesController < ApplicationController
   # Merges this issue to another one by updates all child instances to point to the given issue.
   # Returns the parent issue info
   def merge_to
-    issue = Issue.find(params[:parent_id])
+    begin
+      parent_id = params.require(:parent_id)
+    rescue ActionController::ParameterMissing
+      return invalid_params('Missing parameter: parent_id')
+    end
+
+    return invalid_params('Cannot merge an issue to itself') if @issue.id == parent_id.to_i
+
+    issue = Issue.find(parent_id)
 
     # Allow ticket fields to stay blank if neither are set, but
     # temporarily give them blank strings for simpler logic below
@@ -57,7 +65,7 @@ class IssuesController < ApplicationController
     # Don't allow linking issues if they have conflicting tickets
     unless @issue.ticket.empty? or issue.ticket.empty?
       if @issue.ticket.downcase != issue.ticket.downcase
-        return render :json => {:errors => 'Issues have conflicting tickets'}
+        return invalid_params('Issues have conflicting tickets')
       end
     end
 
@@ -115,9 +123,7 @@ class IssuesController < ApplicationController
   end
 
   protected
-    def params_missing(param=nil)
-      msg = "Missing parameter"
-      msg += ": #{param}" unless param.nil?
+    def invalid_params(msg)
       render json: { errors: { full_messages:[msg] } }, status: :unprocessable_entity
     end
 
