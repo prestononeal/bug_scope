@@ -7,7 +7,6 @@ angular.module('scope')
 IssuesController.$inject = ['issues'];
 function IssuesController(issues) {
   var issuesCtrl = this;
-
   issuesCtrl.issues = issues.data;
 }
 

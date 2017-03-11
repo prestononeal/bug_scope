@@ -25,11 +25,11 @@ class IssuesController < ApplicationController
 
     # Check if an issue with this signature and type exists for this build. If not, create one
     # This will result in some duplicate issues when found across different builds.
-    # Those duplicates can be linked later when the issue is triaged.
+    # Those duplicates can be merged later when the issue is triaged.
     created = false
     issue = build.issues.where(:issue_type => issue_info[:issue_type], 
                                :signature => issue_info[:signature]).first_or_create do |obj|
-      # If the issue gets created, the instance linking the issue and build will also get created
+      # If the issue gets created, the instance merging the issue and build will also get created
       created = true
     end
 
@@ -40,7 +40,7 @@ class IssuesController < ApplicationController
       instance = issue.instances.where(:build => build).first
     end
 
-    # Return the instance info in JSON
+    # Return the created instance
     render json: instance
   end
 
@@ -53,7 +53,7 @@ class IssuesController < ApplicationController
       return invalid_params('Missing parameter: parent_id')
     end
 
-    return invalid_params('Cannot merge an issue to itself') if @issue.id == parent_id.to_i
+    return invalid_params('Cannot merge an issue with itself') if @issue.id == parent_id.to_i
 
     issue = Issue.find(parent_id)
 
@@ -62,7 +62,7 @@ class IssuesController < ApplicationController
     @issue.ticket = '' if @issue.ticket.nil?
     issue.ticket = '' if issue.ticket.nil?
 
-    # Don't allow linking issues if they have conflicting tickets
+    # Don't allow merging issues if they have conflicting tickets
     unless @issue.ticket.empty? or issue.ticket.empty?
       if @issue.ticket.downcase != issue.ticket.downcase
         return invalid_params('Issues have conflicting tickets')
@@ -74,34 +74,33 @@ class IssuesController < ApplicationController
       # We'll do it for both instead of just the parent issue's
       if @issue.ticket.empty?
         logger.debug('Setting issue ticket to first one')
-        @issue.ticket = issue.ticket
-        @issue.save
+        @issue.update(:ticket=>issue.ticket)
       else
         logger.debug('Setting issue ticket to second one')
-        issue.ticket = @issue.ticket
-        issue.save
+        issue.update(:ticket=>@issue.ticket)
       end
     end
 
     # update the children instances to point to the given issue
-    @issue.instances.update(:issue => issue)
+    @issue.instances.update_all(:issue_id => issue.id)
 
-    render json: @issue
+    # Return the parent's info
+    render json: issue
   end
+
 
   # Gets related issues, based on signature. Ignore our own issue.
   def similar_to
-    issues = Issue.signature(@issue.signature).where.not(:id => @issue.id)
-
-    render json: issues
+    render json: Issue.include_hit_count.signature(
+      @issue.signature).where.not(:id => @issue.id)
   end
 
   # GET /issues
   # GET /issues.json
   def index
-    logger.info(params.slice(:all_issues)).to_s
     @issues = Issue.filter(
-      params.slice(:all_with_instances_count, :build_product, :build_branch, :build_name, :build_id, :similar_to, :signature)
+      params.slice(:build_product, :build_branch, 
+                   :build_name, :build_id, :similar_to, :signature, :include_hit_count)
       )
     render json: @issues
   end
@@ -109,7 +108,17 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    render json: @issue.to_json(:include => :builds) 
+    expandable = params[:expand]
+    if expandable
+      expandable = expandable.split(',')
+      expandable.each do |item|
+        # If the caller requests an unexpandable item, return failure
+        return invalid_params("Cannot expand #{item}") if not @issue.respond_to? item.to_sym
+      end
+      render json: @issue.to_json(:include=>expandable)
+    else
+      render json: @issue
+    end
   end
 
   # PATCH/PUT /issues/1
@@ -128,13 +137,16 @@ class IssuesController < ApplicationController
     end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_issue
-      @issue = Issue.all_with_instances_count.find(params[:id])
+      begin
+        # For a single Issue, always include hit count
+        @issue = Issue.include_hit_count.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        invalid_params("Issue #{params[:id]} not found")
+      end
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def issue_params
-      params.require(:issue).permit(:ticket, :note)
+      params.permit(:ticket, :note, :parent_id)
     end
 end

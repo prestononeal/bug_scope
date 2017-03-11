@@ -22,7 +22,7 @@ function config($urlRouterProvider, $stateProvider, APP_CONFIG) {
       controllerAs: 'issuesCtrl',
       resolve: {
         issues: ['ScopeDataService', function(ScopeDataService) {
-          return ScopeDataService.getIssues({'all_with_instances_count': null});
+          return ScopeDataService.getIssues({'include_hit_count': null});
         }]
       }
     })
@@ -55,10 +55,10 @@ function config($urlRouterProvider, $stateProvider, APP_CONFIG) {
       controllerAs: 'issueReportCtrl',
       resolve: {
         issue: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
-          return ScopeDataService.getIssue($stateParams.id);
+          return ScopeDataService.getIssue($stateParams.id, "?expand=builds");
         }],
         similar: ['ScopeDataService', '$stateParams', function(ScopeDataService, $stateParams) {
-          return ScopeDataService.getIssue($stateParams.id, ['similar_to']);
+          return ScopeDataService.getIssue($stateParams.id, "/similar_to");
         }]
       }
     })

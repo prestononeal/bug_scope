@@ -7,7 +7,7 @@ angular.module('scope')
 IssueInfoController.$inject = ['ScopeDataService'];
 function IssueInfoController(ScopeDataService) {
   var $ctrl = this;
-  $ctrl.linkToId = '';
+  $ctrl.mergeToId = '';
 
   $ctrl.updateTicket = function() {
     ScopeDataService.updateIssue($ctrl.issue.id, {note: $ctrl.issue.note, ticket: $ctrl.issue.ticket})

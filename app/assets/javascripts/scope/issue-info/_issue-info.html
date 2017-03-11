@@ -5,20 +5,20 @@
       <th>Type</th>
       <th>Signature</th>
       <th>Ticket</th>
-      <th>Link to</th>
+      <th>Merge to</th>
       <th>Notes</th>
     </tr>
   </thead>
   <tbody>
     <tr ui-sref="issue-report({id: $ctrl.issue.id})">
-      <td>{{$ctrl.issue.instances_count}}</td>
+      <td>{{$ctrl.issue.hit_count}}</td>
       <td>{{$ctrl.issue.issue_type}}</td>
       <td>{{$ctrl.issue.signature}}</td>
       <td><form novalidate><input type="text" ng-model="$ctrl.issue.ticket" ng-blur="$ctrl.updateTicket()"></input></form>
       <div ng-if="$ctrl.ticketInfo">{{$ctrl.ticketInfo}}</div></td>
-      <td ng-if="$ctrl.issue.instances_count"><form novalidate><input type="text" ng-model="$ctrl.linkToId" ng-blur="$ctrl.linkTo()"></input></form>
-      <div ng-if="$ctrl.linkInfo">{{$ctrl.linkInfo}}</div><merge-issue-flow parent-id="$ctrl.linkToId" child-id="$ctrl.issue.id"></merge-issue-flow></td>
-      <td ng-if="$ctrl.issue.instances_count == 0">No instances to link</div>
+      <td ng-if="$ctrl.issue.hit_count"><form novalidate><input type="text" ng-model="$ctrl.mergeToId" ng-blur="$ctrl.mergeTo()"></input></form>
+      <div ng-if="$ctrl.mergeInfo">{{$ctrl.mergeInfo}}</div><merge-issue-flow parent-id="$ctrl.mergeToId" child-id="$ctrl.issue.id"></merge-issue-flow></td>
+      <td ng-if="$ctrl.issue.hit_count == 0">No instances to merge</div>
       <td><form novalidate><input type="text" ng-model="$ctrl.issue.note" ng-blur="$ctrl.updateTicket()"></input></form>
       <div ng-if="$ctrl.ticketInfo">{{$ctrl.ticketInfo}}</div></td>
     </tr>
