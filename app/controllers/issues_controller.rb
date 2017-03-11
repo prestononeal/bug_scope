@@ -74,19 +74,15 @@ class IssuesController < ApplicationController
       # We'll do it for both instead of just the parent issue's
       if @issue.ticket.empty?
         logger.debug('Setting issue ticket to first one')
-        @issue.ticket = issue.ticket
-        @issue.save
+        @issue.update(:ticket=>issue.ticket)
       else
         logger.debug('Setting issue ticket to second one')
-        issue.ticket = @issue.ticket
-        issue.save
+        issue.update(:ticket=>@issue.ticket)
       end
     end
 
-    # update the children instances to point to the given issue
-    @issue.instances.update(:issue => issue)
-
-    render json: @issue
+    # Return the parent's info
+    render json: issue
   end
 
   # Gets related issues, based on signature. Ignore our own issue.

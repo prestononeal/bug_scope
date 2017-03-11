@@ -23,12 +23,16 @@ describe "Issue API", :request do
     expect(payload).to have_key("updated_at")
   end
 
-  def validate_issue_payload_fail (failure_msg)
+  def validate_issue_payload_fail(failure_msg)
     expect(response).to have_http_status(:unprocessable_entity)
     expect(response.content_type).to eq("application/json")
     expect(payload).to have_key("errors")
     expect(payload["errors"]).to have_key("full_messages")
     expect(payload["errors"]["full_messages"]).to include(failure_msg)
+  end
+
+  def validate_payload_matches_issue(iss)
+    expect(payload["id"]).to eq(iss["id"])
   end
 
   context "caller requests list of Issues" do
@@ -48,7 +52,6 @@ describe "Issue API", :request do
   end
 
   context "caller reports" do
-    let(:new_issue_signature) { "test_sig" }
     it "a new Issue with valid params" do
       iss = FactoryGirl.build(:issue)
       bld = FactoryGirl.build(:build)
@@ -75,7 +78,7 @@ describe "Issue API", :request do
       iss = Issue.find_by(:issue_type=>iss[:issue_type], 
                           :signature=>iss[:signature])
       expect(iss).to_not be_nil
-      expect(iss.instances).to_not be_nil
+      expect(iss.instances.count).to eq(1)
       expect(Build.find_by(:product=>bld[:product],
                            :branch=>bld[:branch],
                            :name=>bld[:name])).to_not be_nil
@@ -89,7 +92,7 @@ describe "Issue API", :request do
       expect(payload).to have_key("errors")
       expect(payload["errors"]).to have_key("full_messages")
       expect(payload["errors"]["full_messages"]).to include('Missing parameter')
-      expect(Issue.find_by(:signature=>new_issue_signature)).to be_nil
+      expect(Issue.find_by(:signature=>"test_sig")).to be_nil
     end
 
     it "a known Issue" do
@@ -116,52 +119,59 @@ describe "Issue API", :request do
   end
 
   context "caller merges two issues," do
-    let!(:build) { FactoryGirl.create(:build) }
-    let!(:issue) { build.issues.create(:issue_type=>"test_type", :signature=>"test_sig")}
+    before(:each) do
+      @build = FactoryGirl.create(:build)
+      @issue1 = @build.issues.create(:issue_type=>"test_type1", :signature=>"test_sig1")
+      @issue2 = @build.issues.create(:issue_type=>"test_type2", :signature=>"test_sig2")
+    end
+
+    def reload_issues
+      @issue1.reload
+      @issue2.reload
+    end
+
     it "the same issue" do
-      put "/issues/#{issue.id}/merge_to", params: {:parent_id => issue.id}
+      put "/issues/#{@issue1.id}/merge_to", params: {:parent_id => @issue1.id}
       validate_issue_payload_fail("Cannot merge an issue to itself")
     end
 
     it "with invalid params" do
-      put "/issues/#{issue.id}/merge_to", params: {}
+      put "/issues/#{@issue1.id}/merge_to", params: {}
       validate_issue_payload_fail("Missing parameter: parent_id")
     end
 
     it "conflicting tickets" do
-      issue1 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig",
-                                   :ticket=>"test_ticket1")
-      issue2 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig",
-                                   :ticket=>"test_ticket2")
-      put "/issues/#{issue1.id}/merge_to", params: {:parent_id => issue2.id}
+      @issue1.update(:ticket=>"test_ticket1")
+      @issue2.update(:ticket=>"test_ticket2")
+      put "/issues/#{@issue1.id}/merge_to", params: {:parent_id => @issue2.id}
       validate_issue_payload_fail("Issues have conflicting tickets")
     end
 
     it "parent issue has ticket" do
-      issue1 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig",
-                                   :ticket=>"test_ticket1")
-      issue2 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig")
-      put "/issues/#{issue1.id}/merge_to", params: {:parent_id => issue2.id}
+      @issue1.update(:ticket=>"test_ticket1")
+      issue1_instance_count = @issue1.instances.count
+      issue2_instance_count = @issue2.instances.count
+      put "/issues/#{@issue2.id}/merge_to", params: {:parent_id => @issue1.id}
       validate_issue_payload_pass
+      validate_payload_matches_issue(@issue1)
+      reload_issues
+      expect(@issue2.ticket).to eq(@issue1.ticket)
+      expect(@issue1.instances.count).to eq(issue1_instance_count)
+      expect(@issue2.instances.count).to eq(issue2_instance_count)
     end
 
     it "child issue has ticket" do
-      issue1 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig")
-      issue2 = build.issues.create(:issue_type=>"test_type",
-                                   :signature=>"test_sig",
-                                   :ticket=>"test_ticket2")
-      put "/issues/#{issue1.id}/merge_to", params: {:parent_id => issue2.id}
+      issue1_instance_count = @issue1.instances.count
+      @issue2.update(:ticket=>"test_ticket2")
+      issue2_instance_count = @issue2.instances.count
+      put "/issues/#{@issue2.id}/merge_to", params: {:parent_id => @issue1.id}
       validate_issue_payload_pass
+      validate_payload_matches_issue(@issue1)
+      reload_issues
+      expect(@issue1.ticket).to eq(@issue2.ticket)
+      expect(@issue1.instances.count).to eq(issue1_instance_count)
+      expect(@issue2.instances.count).to eq(issue2_instance_count)
     end
-
-    it "instances point to original issues in db"
-
-    it "parent issue info includes child instances"
   end
 
 end
