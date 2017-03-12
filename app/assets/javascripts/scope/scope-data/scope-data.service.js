@@ -39,8 +39,17 @@ function ScopeDataService($http) {
     // GET REST handler.
     var getString = '/api/issues/' + issueId + '/';
     if(options !== undefined) {
-      for(var index in options) {
-        getString += options[index] + '/';
+      getString += '?';
+      var addAmpersand = false;
+      for(var key in options) {
+        if(addAmpersand) {
+          getString += '&';
+        }
+        getString += key
+        if (options[key]) {
+          getString+= '=' + options[key];
+        }
+        addAmpersand = true;
       }
     }
     return $http.get(getString);
