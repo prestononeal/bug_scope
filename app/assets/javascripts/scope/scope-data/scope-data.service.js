@@ -11,24 +11,23 @@ ScopeDataService.$inject = ['$http'];
 function ScopeDataService($http) {
   var service = this;
 
-  service.mergeTo = function(child, parent) {
-    // Merge the child issue to the parent
-    return $http.put('/issues/' + child + '/merge_to',
-                     {parent_id: parent});
-  }
-
   service.getIssues = function(options) {
     // Pass in an options hash where the key/values 
     // correspond to the filtering parameters in the 
     // GET REST handler.
-    var getString = '/issues';
+    var getString = '/api/issues';
     if(options !== undefined) {
       getString += '?';
+      var addAmpersand = false;
       for(var key in options) {
+        if(addAmpersand) {
+          getString += '&';
+        }
         getString += key
         if (options[key]) {
           getString+= '=' + options[key];
         }
+        addAmpersand = true;
       }
     }
     return $http.get(getString);
@@ -38,7 +37,7 @@ function ScopeDataService($http) {
     // Pass in an options array where the values
     // correspond to the nested routes in the 
     // GET REST handler.
-    var getString = '/issues/' + issueId + '/';
+    var getString = '/api/issues/' + issueId + '/';
     if(options !== undefined) {
       for(var index in options) {
         getString += options[index] + '/';
@@ -48,11 +47,11 @@ function ScopeDataService($http) {
   }
 
   service.getBuilds = function() {
-    return $http.get('/builds');
+    return $http.get('/api/builds');
   };
 
   service.updateIssue = function(issueId, params) {
-    return $http.put('/issues/' + issueId, {issue: params})
+    return $http.put('/api/issues/' + issueId, {issue: params})
   };
 }
 

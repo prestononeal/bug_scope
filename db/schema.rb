@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113222418) do
+ActiveRecord::Schema.define(version: 20170311070723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,11 @@ ActiveRecord::Schema.define(version: 20170113222418) do
     t.datetime "updated_at", null: false
     t.string   "state"
     t.text     "note"
+    t.integer  "parent_id"
+    t.index ["parent_id"], name: "index_issues_on_parent_id", using: :btree
   end
 
   add_foreign_key "instances", "builds"
   add_foreign_key "instances", "issues"
+  add_foreign_key "issues", "issues", column: "parent_id"
 end

@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :set_issue, only: [:show, :similar_to, :merge_to, :update]
+  before_action :set_issue, only: [:show, :similar_to, :update]
 
   # Report an issue.
   # Will create an instance and possibly a new issue if it hasn't been reported.
@@ -40,64 +40,21 @@ class IssuesController < ApplicationController
       instance = issue.instances.where(:build => build).first
     end
 
-    # Return the instance info in JSON
+    # Return the created instance
     render json: instance
-  end
-
-  # Merges this issue to another one by updates all child instances to point to the given issue.
-  # Returns the parent issue info
-  def merge_to
-    begin
-      parent_id = params.require(:parent_id)
-    rescue ActionController::ParameterMissing
-      return invalid_params('Missing parameter: parent_id')
-    end
-
-    return invalid_params('Cannot merge an issue to itself') if @issue.id == parent_id.to_i
-
-    issue = Issue.find(parent_id)
-
-    # Allow ticket fields to stay blank if neither are set, but
-    # temporarily give them blank strings for simpler logic below
-    @issue.ticket = '' if @issue.ticket.nil?
-    issue.ticket = '' if issue.ticket.nil?
-
-    # Don't allow linking issues if they have conflicting tickets
-    unless @issue.ticket.empty? or issue.ticket.empty?
-      if @issue.ticket.downcase != issue.ticket.downcase
-        return invalid_params('Issues have conflicting tickets')
-      end
-    end
-
-    if @issue.ticket.downcase != issue.ticket.downcase
-      # If one issue has a ticket and the other doesn't, update the one without it.
-      # We'll do it for both instead of just the parent issue's
-      if @issue.ticket.empty?
-        logger.debug('Setting issue ticket to first one')
-        @issue.update(:ticket=>issue.ticket)
-      else
-        logger.debug('Setting issue ticket to second one')
-        issue.update(:ticket=>@issue.ticket)
-      end
-    end
-
-    # Return the parent's info
-    render json: issue
   end
 
   # Gets related issues, based on signature. Ignore our own issue.
   def similar_to
-    issues = Issue.signature(@issue.signature).where.not(:id => @issue.id)
-
-    render json: issues
+    render json: Issue.signature(@issue.signature).where.not(:id => @issue.id)
   end
 
   # GET /issues
   # GET /issues.json
   def index
-    logger.info(params.slice(:all_issues)).to_s
     @issues = Issue.filter(
-      params.slice(:all_with_instances_count, :build_product, :build_branch, :build_name, :build_id, :similar_to, :signature)
+        params.slice(:include_instances_count, :build_product, :build_branch, 
+                     :build_name, :build_id, :similar_to, :signature)
       )
     render json: @issues
   end
@@ -105,12 +62,27 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    render json: @issue.to_json(:include => :builds) 
+    expandable = params[:expand]
+    if expandable
+      expandable = expandable.split(',')
+      expandable.each do |item|
+        # If the caller requests an unexpandable item, return failure
+        return invalid_params("Cannot expand #{item}") if not @issue.respond_to? item.to_sym
+      end
+      render json: @issue.to_json(:include=>expandable)
+    else
+      render json: @issue
+    end
   end
 
   # PATCH/PUT /issues/1
   # PATCH/PUT /issues/1.json
   def update
+    if not issue_params[:parent_id].nil?
+      if issue_params[:parent_id].to_i == @issue.id
+        return invalid_params("Cannot set an issue's parent to itself")
+      end
+    end
     if @issue.update(issue_params)
       show
     else
@@ -124,13 +96,14 @@ class IssuesController < ApplicationController
     end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_issue
-      @issue = Issue.all_with_instances_count.find(params[:id])
+      # Allow callers to add the virtual "instances_count" field to this model
+      @issue = Issue.filter(
+        params.slice(:include_instances_count)).find(params[:id]
+        )
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def issue_params
-      params.require(:issue).permit(:ticket, :note)
+      params.permit(:ticket, :note, :parent_id)
     end
 end
