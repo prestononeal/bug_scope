@@ -52,9 +52,11 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
+    # Ignore issues with a parent
     @issues = Issue.filter(
         params.slice(:include_instances_count, :build_product, :build_branch, 
-                     :build_name, :build_id, :similar_to, :signature)
+                     :build_name, :build_id, :similar_to, :signature, 
+                     :exclude_children)
       )
     render json: @issues
   end
@@ -62,9 +64,8 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    expandable = params[:expand]
-    if expandable
-      expandable = expandable.split(',')
+    if params.has_key?(:expand)
+      expandable = params[:expand].split(',')
       expandable.each do |item|
         # If the caller requests an unexpandable item, return failure
         return invalid_params("Cannot expand #{item}") if not @issue.respond_to? item.to_sym
@@ -99,7 +100,8 @@ class IssuesController < ApplicationController
     def set_issue
       # Allow callers to add the virtual "instances_count" field to this model
       @issue = Issue.filter(
-        params.slice(:include_instances_count)).find(params[:id]
+        params.slice(:include_instances_count,
+          :exclude_children)).find(params[:id]
         )
     end
 

@@ -4,9 +4,26 @@ describe "Issue API", :request do
   include_context "db_cleanup_each"
   let(:payload) { JSON.parse(response.body) }
 
-  def validate_instance_payload_pass
+  def validate_pass
     expect(response).to have_http_status(:ok)
     expect(response.content_type).to eq("application/json")
+  end
+
+  def validate_all_issues_payload_pass(check_instances=false)
+    validate_pass
+    expect(payload.map{|f|f["id"]}).to eq(@issues.map{|f|f[:id]})
+    expect(payload.map{|f|f["issue_type"]}).to eq(@issues.map{|f|f[:issue_type]})
+    expect(payload.map{|f|f["signature"]}).to eq(@issues.map{|f|f[:signature]})
+    expect(payload.map{|f|f["ticket"]}).to eq(@issues.map{|f|f[:ticket]})
+    expect(payload.map{|f|f["state"]}).to eq(@issues.map{|f|f[:state]})
+    expect(payload.map{|f|f["note"]}).to eq(@issues.map{|f|f[:note]})
+    if check_instances
+      expect(payload.map{|f|f["instances_count"]}).to eq(@issues.map{|f|f.instances.count})
+    end
+  end
+
+  def validate_instance_payload_pass
+    validate_pass
     expect(payload).to have_key("id")
     expect(payload).to have_key("issue_id")
     expect(payload).to have_key("build_id")
@@ -16,8 +33,7 @@ describe "Issue API", :request do
   end
 
   def validate_issue_payload_pass
-    expect(response).to have_http_status(:ok)
-    expect(response.content_type).to eq("application/json")
+    validate_pass
     expect(payload).to have_key("id")
     expect(payload).to have_key("created_at")
     expect(payload).to have_key("updated_at")
@@ -33,25 +49,50 @@ describe "Issue API", :request do
 
   # Automate the passing of payload bodies as json
   ["put", "post"].each do |http_method_name|
-    define_method("j#{http_method_name}") do |path,params={},headers={}| 
-      headers=headers.merge("content-type" => "application/json") if !params.empty?
+    define_method("j#{http_method_name}") do |path, params={}, headers={}| 
+      headers = headers.merge("content-type" => "application/json") if !params.empty?
       self.send(http_method_name, path, params: params.to_json, headers: headers)
     end
   end
 
+  # Automate adding a json header
+  define_method("jget") do |path, params={}, headers={}|
+    headers = headers.merge("Accept" => "applictation/json")
+    self.send("get", path, params: params.to_json, headers: headers)
+  end
+
   context "caller requests list of Issues" do
-    let!(:issues) { (1..5).map {|idx| FactoryGirl.create(:issue) } }
-    it "returns all Issue instances" do
-      get self.issues_path, params: {}, headers: {"Accept"=>"application/json"}
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to eq("application/json")
-      expect(payload.count).to eq(payload.count)
-      expect(payload.map{|f|f["id"]}).to eq(issues.map{|f|f[:id]})
-      expect(payload.map{|f|f["issue_type"]}).to eq(issues.map{|f|f[:issue_type]})
-      expect(payload.map{|f|f["signature"]}).to eq(issues.map{|f|f[:signature]})
-      expect(payload.map{|f|f["ticket"]}).to eq(issues.map{|f|f[:ticket]})
-      expect(payload.map{|f|f["state"]}).to eq(issues.map{|f|f[:state]})
-      expect(payload.map{|f|f["note"]}).to eq(issues.map{|f|f[:note]})
+    before(:each) do
+      @builds = (1..5).map {|idx| FactoryGirl.create(:build) }
+      @issues = @builds.map {|bld| bld.issues.create }
+    end
+
+    it "returns all Issues" do
+      jget self.issues_path
+      validate_all_issues_payload_pass
+    end
+
+    it "returns all Issues with instance count" do
+      # Add more instances to some of the issues using the first build. 
+      # Right now each issue has only one.
+      more_instances = 1
+      @issues.each do |iss|
+        more_instances.times { iss.instances.create(:build=>@builds[0]) }
+        more_instances += 1
+      end
+      jget self.issues_path + "?include_instances_count"
+      #issues_by_instances_count = @issues.sort_by {|iss| -iss.instances.count}
+      validate_all_issues_payload_pass(true)
+    end
+
+    it "returns Issues without parent Issues, includes total child instance counts" do
+      issue_to_dup = @issues.pop
+      issue_to_dup.update(:parent=>@issues[-1])
+      jget self.issues_path + "?include_instances_count&exclude_children"
+      validate_all_issues_payload_pass(true)
+      expect(@issues[-1].instances.count).to be(
+          issue_to_dup.instances.count + @issues[-1].instances.count
+        )
     end
   end
 
