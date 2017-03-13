@@ -8,6 +8,7 @@ class Issue < ApplicationRecord
   has_many :child_instances, through: :children, source: :instances
 
   scope :exclude_children, -> { where(:parent=>nil) }
+  scope :include_child_instances, -> { includes(:child_instances) }
   scope :distinct_issues, -> { group('issues.id') }
   scope :include_instances_count, -> { joins(:instances).group('issues.id').select('issues.*, count(issues.id) as instances_count').order("id") }
   scope :build_product, -> (build_product) { joins(:builds).distinct_issues.where(:builds=>{:product=>build_product}) }

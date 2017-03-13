@@ -9,7 +9,7 @@ describe "Issue API", :request do
     expect(response.content_type).to eq("application/json")
   end
 
-  def validate_all_issues_payload_pass(check_instances=false)
+  def validate_all_issues_payload_pass
     validate_pass
     expect(payload.map{|f|f["id"]}).to eq(@issues.map{|f|f[:id]})
     expect(payload.map{|f|f["issue_type"]}).to eq(@issues.map{|f|f[:issue_type]})
@@ -17,9 +17,6 @@ describe "Issue API", :request do
     expect(payload.map{|f|f["ticket"]}).to eq(@issues.map{|f|f[:ticket]})
     expect(payload.map{|f|f["state"]}).to eq(@issues.map{|f|f[:state]})
     expect(payload.map{|f|f["note"]}).to eq(@issues.map{|f|f[:note]})
-    if check_instances
-      expect(payload.map{|f|f["instances_count"]}).to eq(@issues.map{|f|f.instances.count})
-    end
   end
 
   def validate_instance_payload_pass
@@ -80,17 +77,17 @@ describe "Issue API", :request do
         more_instances.times { iss.instances.create(:build=>@builds[0]) }
         more_instances += 1
       end
-      jget self.issues_path + "?include_instances_count"
-      #issues_by_instances_count = @issues.sort_by {|iss| -iss.instances.count}
-      validate_all_issues_payload_pass(true)
+      jget self.issues_path
+      validate_all_issues_payload_pass
     end
 
     it "returns Issues without parent Issues, includes total child instance counts" do
       issue_to_dup = @issues.pop
       issue_to_dup.update(:parent=>@issues[-1])
-      jget self.issues_path + "?include_instances_count&exclude_children"
-      validate_all_issues_payload_pass(true)
-      expect(@issues[-1].instances.count).to be(
+      jget self.issues_path + "?include_instances_count&exclude_children&include_child_instances_count"
+      validate_all_issues_payload_pass
+      expect(payload.map{|f|f["instances_count"]}).to eq(@issues.map{|f|f.instances.count + f.child_instances.count})
+      expect(@issues[-1].instances.count + @issues[-1].child_instances.count).to be(
           issue_to_dup.instances.count + @issues[-1].instances.count
         )
     end

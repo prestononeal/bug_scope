@@ -56,9 +56,20 @@ class IssuesController < ApplicationController
     @issues = Issue.filter(
         params.slice(:include_instances_count, :build_product, :build_branch, 
                      :build_name, :build_id, :similar_to, :signature, 
-                     :exclude_children)
+                     :exclude_children, :include_child_instances)
       )
-    render json: @issues
+    if params.has_key?(:include_child_instances_count) and params.has_key?(:include_instances_count)
+      issues = []
+      @issues.each_with_index do |iss, idx|
+        issues.push(iss.attributes)
+        if not iss.child_instances.empty?
+          issues[idx]["instances_count"] += iss.child_instances.count
+        end
+      end
+      render json: issues
+    else
+      render json: @issues
+    end
   end
 
   # GET /issues/1
