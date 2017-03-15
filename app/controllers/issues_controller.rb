@@ -1,5 +1,4 @@
 class IssuesController < ApplicationController
-  skip_before_filter :verify_authenticity_token
   before_action :set_issue, only: [:show, :similar_to, :merge_to, :update]
 
   # Report an issue.

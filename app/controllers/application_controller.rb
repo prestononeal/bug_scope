@@ -1,7 +1,4 @@
-class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
-
-  def angular
-    render 'layouts/application'
-  end
+class ApplicationController < ActionController::API
+  # make the connection between controller action and associated view
+  include ActionController::ImplicitRender
 end
