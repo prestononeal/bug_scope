@@ -53,23 +53,9 @@ class IssuesController < ApplicationController
   # GET /issues.json
   def index
     # Ignore issues with a parent
-    @issues = Issue.filter(
-        params.slice(:include_instances_count, :build_product, :build_branch, 
-                     :build_name, :build_id, :similar_to, :signature, 
-                     :exclude_children, :include_child_instances)
-      )
-    if params.has_key?(:include_child_instances_count) and params.has_key?(:include_instances_count)
-      issues = []
-      @issues.each_with_index do |iss, idx|
-        issues.push(iss.attributes)
-        if not iss.child_instances.empty?
-          issues[idx]["instances_count"] += iss.child_instances.count
-        end
-      end
-      render json: issues
-    else
-      render json: @issues
-    end
+    render json: Issue.filter(
+        params.slice(:build_product, :build_branch, :build_name, :build_id, :similar_to)
+      ).where("issues.id = issues.parent_id").include_hit_count
   end
 
   # GET /issues/1
@@ -110,10 +96,7 @@ class IssuesController < ApplicationController
   private
     def set_issue
       # Allow callers to add the virtual "instances_count" field to this model
-      @issue = Issue.filter(
-        params.slice(:include_instances_count,
-          :exclude_children)).find(params[:id]
-        )
+      @issue = Issue.find(params[:id])
     end
 
     def issue_params
