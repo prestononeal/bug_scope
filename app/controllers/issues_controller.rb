@@ -88,10 +88,9 @@ class IssuesController < ApplicationController
     render json: issue
   end
 
-
   # Gets related issues, based on signature. Ignore our own issue.
   def similar_to
-    render json: Issue.include_hit_count.signature(
+    render json: Issue.signature(
       @issue.signature).where.not(:id => @issue.id)
   end
 
