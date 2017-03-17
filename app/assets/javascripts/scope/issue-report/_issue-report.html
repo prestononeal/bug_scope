@@ -1,4 +1,8 @@
-<h3>Info for Issue #{{issueReportCtrl.issue.id}}:</h3>
+<h3>Info for Issue #{{issueReportCtrl.issue.id}}
+  <a ng-if="issueReportCtrl.ticketUrl" ng-href="{{issueReportCtrl.ticketUrl}}/{{issueReportCtrl.issue.ticket}}" target="_blank">
+    <button ng-if="issueReportCtrl.issue.ticket" type="button" class="btn btn-primary">{{issueReportCtrl.issue.ticket}}</button>
+  </a>
+</h3>
 <issue-info issue="issueReportCtrl.issue"></issue-info>
 
 <h3>Found on builds:</h3>

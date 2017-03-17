@@ -15,6 +15,7 @@
 //= require scope/issue-info/issue-info.component
 //= require scope/issue-info/issue-info.controller
 //= require scope/issue-list/issue-list.component
+//= require scope/issue-list/issue-list.controller
 //= require scope/issue-report/issue-report.controller
 //= require scope/issues/issues.controller
 //= require scope/merge-issue-flow/merge-issue-flow.component

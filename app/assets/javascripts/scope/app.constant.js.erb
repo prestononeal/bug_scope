@@ -5,7 +5,8 @@
     .module('scope')
     .constant('scope.APP_CONFIG', {
         main_page_html: "<%= asset_path('scope/pages/_home.html') %>",
-        server_url: "<%= ENV['RAILS_API_URL'] %>",
+        server_url: "<%= Figaro.env.rails_api_url %>",
+        ticket_base_url: "<%= Figaro.env.ticket_base_url %>",
         issue_info_html: "<%= asset_path('scope/issue-info/_issue-info.html') %>",
         issues_html: "<%= asset_path('scope/issues/_issues.html') %>",
         issue_list_html: "<%= asset_path('scope/issue-list/_issue-list.html') %>",

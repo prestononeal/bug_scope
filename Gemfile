@@ -20,6 +20,8 @@ gem 'database_cleaner', '~>1.5', '>=1.5.3'
 gem 'factory_girl_rails', '~>4.7', '>=4.7.0'
 gem 'faker', '~>1.6', '>=1.6.6'
 
+gem 'figaro', '~>1.1', '>=1.1.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

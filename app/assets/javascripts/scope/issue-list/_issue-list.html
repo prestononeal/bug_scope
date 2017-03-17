@@ -5,8 +5,8 @@
       <th>Occurrences</th>
       <th>Type</th>
       <th>Signature</th>
-      <th>Ticket</th>
       <th>Notes</th>
+      <th>Ticket</th>
       <th ng-if="$ctrl.parentId">Merge To Parent #{{$ctrl.parentId}}</th>
     </tr>
   </thead>
@@ -16,8 +16,8 @@
       <td ui-sref="issue-report({id: issue.id})">{{issue.hit_count}}</td>
       <td ui-sref="issue-report({id: issue.id})">{{issue.issue_type}}</td>
       <td ui-sref="issue-report({id: issue.id})">{{issue.signature}}</td>
-      <td ui-sref="issue-report({id: issue.id})">{{issue.ticket}}</td>
       <td ui-sref="issue-report({id: issue.id})">{{issue.note}}</td>
+      <td><a ng-if="$ctrl.ticketUrl" ng-href="{{$ctrl.ticketUrl}}/{{issue.ticket}}" target="_blank"><button ng-if="issue.ticket" type="button" class="btn btn-primary">{{issue.ticket}}</button></a></td>
       <td ng-if="$ctrl.parentId">
         <merge-issue-flow parent-id="$ctrl.parentId" child-id="issue.id"></merge-issue-flow>
       </td>
