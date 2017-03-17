@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: scope_production
-  username: scope
+  username: <%= ENV['SCOPE_DATABASE_USERNAME'] %>
   password: <%= ENV['SCOPE_DATABASE_PASSWORD'] %>
