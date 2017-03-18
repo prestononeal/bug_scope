@@ -30,3 +30,7 @@ Installation steps (client):
 2. `npm init` (accept all defaults)
 3. Install bower `npm install -g bower`
 4. `bower init` (accept all defaults)
+
+Production deployment:
+
+1. Define `ticket_base_url` in config/application.yml. This is the base link to your ticketing system.
