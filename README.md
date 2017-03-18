@@ -33,7 +33,10 @@ Installation steps (client):
 Development set-up steps:
 
 1.`npm install -g @angular/cli`
+2. `ng serve --open`
 
-Production deployment:
+Production deployment (POSIX):
 
-1. Define `ticket_base_url` in config/application.yml. This is the base link to your ticketing system.
+1. Define `ticket_base_url`, `secret_key_base`, `scope_database_usename`, and `scope_database_password` in config/application.yml. This is the base link to your ticketing system.
+2. Build and deploy client side assets by running `npm run deploy` inside the `client` folder
+3. Start deployment server (nginx, etc)

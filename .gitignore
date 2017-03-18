@@ -25,4 +25,4 @@ Thumbs.db
 
 # Client side stuff that is not checked in
 /node_modules
-/public/client
+/public/*

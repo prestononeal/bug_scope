@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :builds, only: [:index, :show]
   end
 
-  get "/client-assets/:name.:format", :to => redirect("/client/client-assets/%{name}.%{format}")
+  get "/:name.:format", :to => redirect("/client/%{name}.%{format}")
+  get "/:name.bundle.:format", :to => redirect("/client/%{name}.bundle.%{format}")
   get "/", :to => redirect("/client/index.html")
 end
