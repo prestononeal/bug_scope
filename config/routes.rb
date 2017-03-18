@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     resources :builds, only: [:index, :show]
   end
 
-  root to: 'ui#main'
+  get "/client-assets/:name.:format", :to => redirect("/client/client-assets/%{name}.%{format}")
+  get "/", :to => redirect("/client/index.html")
 end
