@@ -9,7 +9,5 @@ Rails.application.routes.draw do
     resources :builds, only: [:index, :show]
   end
 
-  get '/ui' => 'ui#index'
-  get '/ui#' => 'ui#index'
-  root to: 'ui#index'
+  root to: 'ui#main'
 end
