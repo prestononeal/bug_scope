@@ -30,3 +30,8 @@ coverage
 
 # Ignore application configuration
 /config/application.yml
+
+# Client side stuff that is not checked in
+/client/build
+/bower_components
+/node_modules

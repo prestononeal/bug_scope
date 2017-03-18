@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope :api do
+  scope :api, defaults: {format: :json} do
     resources :issues, only: [:index, :show, :update] do
       post 'report', :on => :collection
       get 'similar_to', :on => :member
