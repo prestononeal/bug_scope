@@ -1,47 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Scope</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+  <meta charset="utf-8">
+  <title>ScopeClient</title>
+  <base href="/">
 
-    <!-- build:css client-assets/styles.css -->
-    <link rel="stylesheet" type="text/css" href="scope.css">
-    <!-- endbuild -->
-
-    <!-- build:js client-assets/scripts.js -->
-    <script src='jquery.js'></script>
-    <script src='bootstrap.js'></script>
-    <script src='angular.js'></script>
-    <script src='angular-ui-router.js'></script>
-    <script src='angular-resource.js'></script>
-    <!-- endbuild -->
-  </head>
-
-  <body ng-app="scope" ng-strict-di>
-    <header>
-      <nav id="header-nav" class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <div class="navbar-brand" ui-sref="home">
-            Scope
-            </div>
-          </div>
-
-          <ul class="nav navbar-nav">
-            <li ui-sref-active="active"><a ui-sref="issues">Issues</a></li>
-            <li ui-sref-active="active"><a ui-sref="builds">Builds</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li ui-sref-active="active"><a ui-sref="submit">Submit Issues</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-
-    <ui-view>
-    </ui-view>
-  </body>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root>Loading...</app-root>
+</body>
 </html>

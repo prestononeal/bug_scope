@@ -26,10 +26,13 @@ Running server test cases:
 
 Installation steps (client):
 
-1. Install npm
-2. `npm init` (accept all defaults)
-3. Install bower `npm install -g bower`
-4. `bower init` (accept all defaults)
+1. Install node.js
+2. Install npm
+3. `npm install`
+
+Development set-up steps:
+
+1.`npm install -g @angular/cli`
 
 Production deployment:
 
