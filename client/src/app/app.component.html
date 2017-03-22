@@ -1,3 +1,14 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+<h2>Scope</h2>
+<ngb-tabset (tabChange)="tabChange($event)">
+  <ngb-tab id="issues">
+    <template ngbTabTitle>Issues</template>
+    <template ngbTabContent></template>
+  </ngb-tab>
+  <ngb-tab id="builds">
+    <template ngbTabTitle>Builds</template>
+    <template ngbTabContent></template>
+  </ngb-tab>
+</ngb-tabset>
+<router-outlet></router-outlet>
+</div>
