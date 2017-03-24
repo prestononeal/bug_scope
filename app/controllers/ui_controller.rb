@@ -1,5 +1,5 @@
 class UiController < ApplicationController
-  def main
-    render json: "Welcome to the Scope Data Service"
+  def index
+    render 'public/index.html', layout: false
   end
 end

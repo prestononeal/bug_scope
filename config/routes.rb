@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :builds, only: [:index, :show]
   end
 
-  get "/:name.:format", :to => redirect("/client/%{name}.%{format}")
-  get "/:name.bundle.:format", :to => redirect("/client/%{name}.bundle.%{format}")
-  get "/", :to => redirect("/client/index.html")
+  root :to => 'ui#index'
+
+  get '*unmatched_route', to: 'ui#index'
 end

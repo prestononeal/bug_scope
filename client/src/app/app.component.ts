@@ -22,10 +22,10 @@ export class AppComponent{
   }
 
   gotoIssues(): void {
-    this.router.navigate(['/issues']);
+    this.router.navigate(['issues']);
   }
 
   gotoBuilds(): void {
-    this.router.navigate(['/builds'])
+    this.router.navigate(['builds'])
   }
 }

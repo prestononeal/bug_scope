@@ -5,7 +5,7 @@ import { IssuesComponent }      from './issues.component';
 import { BuildsComponent }      from './builds.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/issues', pathMatch: 'full' },
+  { path: '', redirectTo: 'issues', pathMatch: 'full' },
   { path: 'issues', component: IssuesComponent },
   { path: 'builds', component: BuildsComponent }
 ];

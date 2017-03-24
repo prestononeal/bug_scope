@@ -11,13 +11,24 @@ import { Build } from './build'
 export class ScopeService {
   constructor(private http: Http) { }
 
-  private issuesUrl = 'http://localhost:3000/api/issues';  // URL to web api
+  private scopeDataUrl = 'http://localhost:3000/api';  // URL to web api
 
   getIssues(): Promise<Issue[]> {
-    return Promise.resolve([{id: 1, signature: "test1"}, {id: 2, signature: "test2"}]);
+    return this.http.get(`${this.scopeDataUrl}/issues`)
+                .toPromise()
+                .then(response => response.json() as Issue[])
+                .catch(this.handleError);
   }
 
   getBuilds(): Promise<Build[]> {
-    return Promise.resolve([{id: 1, name: "thisbuild1"}, {id: 2, name: "thisbuild2"}]);
+    return this.http.get(`${this.scopeDataUrl}/builds`)
+                .toPromise()
+                .then(response => response.json() as Build[])
+                .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 }

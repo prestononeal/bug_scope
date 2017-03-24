@@ -2,7 +2,7 @@
   <li *ngFor="let issue of issues" 
     [class.selected]="issue === selectedIssue" 
     (click)="onSelect(issue)">
-    <span class="badge">{{issue.id}}</span> {{issue.signature}}
+    {{issue.id}}: {{issue.signature}}
   </li>
 </ul>
 <div *ngIf="selectedIssue">
