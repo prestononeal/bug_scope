@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     resources :builds, only: [:index, :show]
   end
 
-  root :to => 'ui#index'
-
-  get '*unmatched_route', to: 'ui#index'
+  # TODO: change to `/?goto=%{path}` when we can handle dynamic routing in Angular2
+  get "/*path" => redirect("/")
 end
