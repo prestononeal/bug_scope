@@ -12,6 +12,7 @@ Installation steps (server):
 
 1. Install [rbenv](https://github.com/rbenv/rbenv#installation)
 2. `rbenv install 2.3.1`
+3. `rbenv global 2.3.1` (or `rbenv local 2.3.1`)
 3. `gem install bundler`
 4. `rbenv rehash`
 4. Install [postgres](https://www.postgresql.org/download/)
@@ -28,7 +29,7 @@ Installation steps (client):
 
 1. Install node.js
 2. Install npm
-3. `npm install`
+3. `npm install` from `/client` root
 
 Development set-up steps:
 
