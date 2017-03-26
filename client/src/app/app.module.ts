@@ -11,13 +11,15 @@ import { AppComponent }             from './app.component';
 import { IssuesComponent }          from './issues.component';
 import { BuildsComponent }          from './builds.component';
 import { IssueDetailComponent }     from './issue-detail.component';
+import { BuildDetailComponent }     from './build-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IssuesComponent,
     BuildsComponent,
-    IssueDetailComponent
+    IssueDetailComponent,
+    BuildDetailComponent
   ],
   imports: [
     NgbModule.forRoot(),

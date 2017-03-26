@@ -10,27 +10,35 @@ import { ScopeService } from './scope.service'
   providers: [ScopeService]
 })
 export class BuildsComponent implements OnInit{
+  public rows:Array<any> = [];
+  public columns:Array<any> = [
+    { title: 'ID', name: 'id' },
+    { title: 'Branch', name: 'branch' },
+    { title: 'Product', name: 'product' },
+    { title: 'Name', name: 'name' },
+  ];
+  public config: any = {
+    className: ['table-striped', 'table-bordered']
+  };
   constructor(
     private scopeService: ScopeService,
     private router: Router
   ) { }
 
-  selectedBuild: Build;
   builds: Build[];
 
   ngOnInit(): void {
     this.getBuilds();
   }
 
-  onSelect(build: Build): void {
-    this.selectedBuild = build;
-  }
-
   getBuilds(): void {
-    this.scopeService.getBuilds().then(builds => this.builds = builds);
+    this.scopeService.getBuilds().then(builds => {
+      this.builds = builds
+      this.rows = builds
+    });
   }
 
-  gotoDetail(): void {
-    // Nothing yet...
+  gotoDetail(data: any): void {
+    this.router.navigate(['/builds/' + data.row.id]);
   }
 }

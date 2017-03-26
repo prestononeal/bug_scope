@@ -36,13 +36,12 @@ export class IssuesComponent implements OnInit{
 
   getIssues(): void {
     this.scopeService.getIssues().then(issues => {
-      this.issues = issues
-      this.rows = issues
+      this.issues = issues;
+      this.rows = issues;
     });
   }
 
   gotoDetail(data: any): void {
-    // Nothing yet...
-    this.router.navigate(['/issues/' + data.row.id])
+    this.router.navigate(['/issues/' + data.row.id]);
   }
 }

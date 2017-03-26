@@ -1,13 +1,8 @@
-<ul class="builds">
-  <li *ngFor="let build of builds" 
-    [class.selected]="build === selectedBuild" 
-    (click)="onSelect(build)">
-    <span class="badge">{{build.id}}</span> {{build.name}}
-  </li>
-</ul>
-<div *ngIf="selectedBuild">
-  <h2>
-    {{selectedBuild.name | uppercase}}
-  </h2>
-  <button (click)="gotoDetail()">View Details</button>
+<div class="container-fluid">
+  <h3>Most recent builds:</h3>
+
+  <ng-table [config]="config"
+            (cellClicked)="gotoDetail($event)"
+            [rows]="rows" [columns]="columns">
+  </ng-table>
 </div>
