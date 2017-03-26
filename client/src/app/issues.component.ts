@@ -10,27 +10,39 @@ import { ScopeService } from './scope.service'
   providers: [ScopeService]
 })
 export class IssuesComponent implements OnInit{
+  public rows:Array<any> = [];
+  public columns:Array<any> = [
+    { title: 'ID', name: 'id' },
+    { title: 'Hit Count', name: 'hit_count' },
+    { title: 'Type', name: 'issue_type' },
+    { title: 'Signature', name: 'signature' },
+    { title: 'Note', name: 'note' },
+    { title: 'Ticket', name: 'ticket' },
+  ];
+  public config: any = {
+    className: ['table-striped', 'table-bordered']
+  };
+
   constructor(
     private scopeService: ScopeService,
     private router: Router
   ) { }
 
-  selectedIssue: Issue;
   issues: Issue[];
 
   ngOnInit(): void {
     this.getIssues();
   }
 
-  onSelect(issue: Issue): void {
-    this.selectedIssue = issue;
-  }
-
   getIssues(): void {
-    this.scopeService.getIssues().then(issues => this.issues = issues);
+    this.scopeService.getIssues().then(issues => {
+      this.issues = issues
+      this.rows = issues
+    });
   }
 
-  gotoDetail(): void {
+  gotoDetail(data: any): void {
     // Nothing yet...
+    this.router.navigate(['/issues/' + data.row.id])
   }
 }

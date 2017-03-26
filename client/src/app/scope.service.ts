@@ -13,8 +13,12 @@ export class ScopeService {
 
   private scopeDataUrl = 'http://localhost:3000/api';  // URL to web api
 
-  getIssues(): Promise<Issue[]> {
-    return this.http.get(`${this.scopeDataUrl}/issues`)
+  getIssues(byHits=true): Promise<Issue[]> {
+    let query = `${this.scopeDataUrl}/issues`
+    if (byHits) {
+      query += '?include_hit_count'
+    }
+    return this.http.get(query)
                 .toPromise()
                 .then(response => response.json() as Issue[])
                 .catch(this.handleError);
@@ -28,7 +32,6 @@ export class ScopeService {
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 }

@@ -4,16 +4,20 @@ import { FormsModule }              from '@angular/forms';
 import { HttpModule, JsonpModule }  from '@angular/http';
 import { NgbModule }                from '@ng-bootstrap/ng-bootstrap';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent }     from './app.component';
-import { IssuesComponent }  from './issues.component';
-import { BuildsComponent }  from './builds.component';
+import { Ng2TableModule }           from 'ng2-table/ng2-table';
+
+import { AppRoutingModule }         from './app-routing.module';
+import { AppComponent }             from './app.component';
+import { IssuesComponent }          from './issues.component';
+import { BuildsComponent }          from './builds.component';
+import { IssueDetailComponent }     from './issue-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IssuesComponent,
-    BuildsComponent
+    BuildsComponent,
+    IssueDetailComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -21,7 +25,8 @@ import { BuildsComponent }  from './builds.component';
     FormsModule,
     HttpModule,
     JsonpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
