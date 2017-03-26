@@ -1,14 +1,15 @@
-<div class="container">
-<h2>Scope</h2>
-<ngb-tabset (tabChange)="tabChange($event)">
-  <ngb-tab id="issues">
-    <template ngbTabTitle>Issues</template>
-    <template ngbTabContent></template>
-  </ngb-tab>
-  <ngb-tab id="builds">
-    <template ngbTabTitle>Builds</template>
-    <template ngbTabContent></template>
-  </ngb-tab>
-</ngb-tabset>
+<header>
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="navbar-brand mb-0">Scope</h1>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="issues" routerLinkActive="active">Issues</a>
+        <a class="nav-item nav-link" routerLink="builds" routerLinkActive="active">Builds</a>
+      </div>
+    </div>
+  </nav>
+</header>
 <router-outlet></router-outlet>
-</div>
