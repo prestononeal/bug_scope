@@ -13,22 +13,26 @@ export class ScopeService {
 
   private scopeDataUrl = 'http://localhost:3000/api';  // URL to web api
 
-  getIssues(byHits=true): Promise<Issue[]> {
-    let query = `${this.scopeDataUrl}/issues`
-    if (byHits) {
-      query += '?include_hit_count'
-    }
-    return this.http.get(query)
-                .toPromise()
-                .then(response => response.json() as Issue[])
-                .catch(this.handleError);
+  getIssues(query=''): Promise<Issue[]> {
+    return this.http.get(`${this.scopeDataUrl}/issues/${query}`)
+                    .toPromise()
+                    .then(response => response.json() as Issue[])
+                    .catch(this.handleError);
   }
 
   getBuilds(): Promise<Build[]> {
     return this.http.get(`${this.scopeDataUrl}/builds`)
-                .toPromise()
-                .then(response => response.json() as Build[])
-                .catch(this.handleError);
+                    .toPromise()
+                    .then(response => response.json() as Build[])
+                    .catch(this.handleError);
+  }
+
+  getBuild(id: number): Promise<Build> {
+    return this.http.get(`${this.scopeDataUrl}/builds/${id}`)
+                    .toPromise()
+                    .then(response => response.json() as Build)
+                    .catch(this.handleError);
+
   }
 
   private handleError(error: any): Promise<any> {

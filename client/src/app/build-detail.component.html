@@ -1,1 +1,3 @@
-Build detail here:...
+<div *ngIf="build">
+  <issues [msg]="msg" [query]="'?build_id=' + build.id"></issues>
+</div>

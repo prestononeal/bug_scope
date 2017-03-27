@@ -1,8 +1,8 @@
-import { Component, OnInit }  from '@angular/core';
-import { Router }             from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router }                   from '@angular/router';
 
-import { Issue }        from './issue'
-import { ScopeService } from './scope.service'
+import { Issue }                    from './issue'
+import { ScopeService }             from './scope.service'
 
 @Component({
   selector: 'issues',
@@ -10,8 +10,8 @@ import { ScopeService } from './scope.service'
   providers: [ScopeService]
 })
 export class IssuesComponent implements OnInit{
-  public rows:Array<any> = [];
-  public columns:Array<any> = [
+  public rows: Array<any> = [];
+  public columns: Array<any> = [
     { title: 'ID', name: 'id' },
     { title: 'Hit Count', name: 'hit_count' },
     { title: 'Type', name: 'issue_type' },
@@ -23,6 +23,9 @@ export class IssuesComponent implements OnInit{
     className: ['table-striped', 'table-bordered']
   };
 
+  @Input() msg: string;
+  @Input() query: string;
+
   constructor(
     private scopeService: ScopeService,
     private router: Router
@@ -31,17 +34,14 @@ export class IssuesComponent implements OnInit{
   issues: Issue[];
 
   ngOnInit(): void {
-    this.getIssues();
-  }
-
-  getIssues(): void {
-    this.scopeService.getIssues().then(issues => {
+    this.query = this.query || '?include_hit_count'
+    this.scopeService.getIssues(this.query).then(issues => {
       this.issues = issues;
       this.rows = issues;
     });
   }
 
   gotoDetail(data: any): void {
-    this.router.navigate(['/issues/' + data.row.id]);
+    this.router.navigate(['issues', data.row.id]);
   }
 }
