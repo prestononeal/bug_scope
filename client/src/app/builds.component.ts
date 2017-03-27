@@ -13,8 +13,8 @@ export class BuildsComponent implements OnInit{
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'ID', name: 'id' },
-    { title: 'Branch', name: 'branch' },
     { title: 'Product', name: 'product' },
+    { title: 'Branch', name: 'branch' },
     { title: 'Name', name: 'name' },
   ];
   public config: any = {
