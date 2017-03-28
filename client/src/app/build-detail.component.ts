@@ -24,8 +24,8 @@ export class BuildDetailComponent implements OnInit {
     this.route.params
               .switchMap((params: Params) => this.scopeService.getBuild(+params['id']))
               .subscribe((build: Build) => {
-                this.build = build
-                this.msg = `Issues found in ${this.build.product}/${this.build.branch}/${this.build.name}`;
+                this.build = build;
+                this.msg = `Issues found in ${this.build.product} / ${this.build.branch} / ${this.build.name}`;
               });
   }
 }

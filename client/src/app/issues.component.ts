@@ -16,7 +16,6 @@ export class IssuesComponent implements OnInit{
     { title: 'Hit Count', name: 'hit_count' },
     { title: 'Type', name: 'issue_type' },
     { title: 'Signature', name: 'signature' },
-    { title: 'Note', name: 'note' },
     { title: 'Ticket', name: 'ticket' },
   ];
   public config: any = {
@@ -34,7 +33,8 @@ export class IssuesComponent implements OnInit{
   issues: Issue[];
 
   ngOnInit(): void {
-    this.query = this.query || '?include_hit_count'
+    this.query = this.query || '?include_hit_count';
+    this.msg = this.msg || 'Top overall issues:';
     this.scopeService.getIssues(this.query).then(issues => {
       this.issues = issues;
       this.rows = issues;

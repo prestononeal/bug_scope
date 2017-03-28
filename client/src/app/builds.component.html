@@ -1,8 +1,6 @@
-<div class="container-fluid">
-  <h3>Most recent builds:</h3>
+<h3>{{ msg }}</h3>
 
-  <ng-table [config]="config"
-            (cellClicked)="gotoDetail($event)"
-            [rows]="rows" [columns]="columns">
-  </ng-table>
-</div>
+<ng-table [config]="config"
+          (cellClicked)="gotoDetail($event)"
+          [rows]="rows" [columns]="columns">
+</ng-table>

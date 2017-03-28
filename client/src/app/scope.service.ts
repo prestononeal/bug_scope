@@ -20,6 +20,13 @@ export class ScopeService {
                     .catch(this.handleError);
   }
 
+  getIssue(id: number, query=''): Promise<Issue> {
+    return this.http.get(`${this.scopeDataUrl}/issues/${id}` + query)
+                    .toPromise()
+                    .then(response => response.json() as Issue)
+                    .catch(this.handleError);
+  }
+
   getBuilds(): Promise<Build[]> {
     return this.http.get(`${this.scopeDataUrl}/builds`)
                     .toPromise()

@@ -14,6 +14,4 @@ class Issue < ApplicationRecord
   scope :build_branch, -> (build_branch) { joins(:builds).where(:builds=>{:branch=>build_branch}).aggregate_hits }
   scope :build_name, -> (build_name) { joins(:builds).where(:builds=>{:name=>build_name}).aggregate_hits }
   scope :build_id, -> (build_id) { joins(:builds).where(:builds=>{:id=>build_id}).aggregate_hits }
-
-  scope :signature, -> (signature) { joins(:builds).where(:signature=>signature).distinct_issues }
 end

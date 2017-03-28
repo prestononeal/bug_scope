@@ -1,1 +1,15 @@
-Issue detail here:...
+<div *ngIf="issue">
+  <h3>{{ msg }}</h3>
+  <ul>
+    <li>Total hits: {{ issue.hit_count }}</li>
+    <li>Type: {{ issue.issue_type }}</li>
+    <li>Type: {{ issue.signature }}</li>
+    <li>Notes: {{ issue.notes }}</li>
+    <li>Ticket: {{ issue.ticket }}</li>
+    <li>Merge to: </li>
+  </ul>
+
+  <builds [msg]="'Found on builds:'" [builds]="issue.builds"></builds>
+
+  <issues [msg]="'Similar issues:'" [query]="'/' + issue.id + '/similar_to'"></issues>
+</div>

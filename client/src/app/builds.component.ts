@@ -1,8 +1,8 @@
-import { Component, OnInit }      from '@angular/core';
-import { Router }                 from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router }                   from '@angular/router';
 
-import { Build }                  from './build'
-import { ScopeService }           from './scope.service'
+import { Build }                    from './build'
+import { ScopeService }             from './scope.service'
 
 @Component({
   selector: 'builds',
@@ -20,18 +20,26 @@ export class BuildsComponent implements OnInit{
   public config: any = {
     className: ['table-striped', 'table-bordered']
   };
+
+  @Input() msg: string;
+
   constructor(
     private scopeService: ScopeService,
     private router: Router
   ) { }
 
-  builds: Build[];
+  @Input() builds: Build[];
 
   ngOnInit(): void {
-    this.scopeService.getBuilds().then(builds => {
-      this.builds = builds
-      this.rows = builds
-    });
+    this.msg = this.msg || 'Most recent builds:';
+    if (this.builds == null) {
+      this.scopeService.getBuilds().then(builds => {
+        this.builds = builds
+        this.rows = builds
+      });
+    } else {
+      this.rows = this.builds;
+    }
   }
 
   gotoDetail(data: any): void {
