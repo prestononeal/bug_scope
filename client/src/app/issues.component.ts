@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router }                   from '@angular/router';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Router }                                             from '@angular/router';
 
-import { Issue }                    from './issue'
-import { ScopeService }             from './scope.service'
+import { Issue }                                              from './issue'
+import { ScopeService }                                       from './scope.service'
 
 @Component({
   selector: 'issues',
   templateUrl: './issues.component.html',
   providers: [ScopeService]
 })
-export class IssuesComponent implements OnInit{
+export class IssuesComponent implements OnInit, OnChanges{
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'ID', name: 'id' },
@@ -31,14 +31,31 @@ export class IssuesComponent implements OnInit{
   ) { }
 
   issues: Issue[];
+  private initialized = false;
 
   ngOnInit(): void {
     this.query = this.query || '?include_hit_count';
     this.msg = this.msg || 'Top overall issues:';
+    this.updateIssues();
+    this.initialized = true;
+  }
+
+  updateIssues(): void {
     this.scopeService.getIssues(this.query).then(issues => {
       this.issues = issues;
       this.rows = issues;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Re-query for the issues if the query param changes
+    // Only do this for changes to the query param after initialization
+    if (!this.initialized) {
+      return;
+    }
+    if ('query' in changes) {
+      this.updateIssues();
+    }
   }
 
   gotoDetail(data: any): void {
