@@ -31,17 +31,15 @@ export class IssuesComponent implements OnInit, OnChanges{
   ) { }
 
   issues: Issue[];
-  private initialized = false;
 
   ngOnInit(): void {
     this.query = this.query || '?include_hit_count';
     this.msg = this.msg || 'Top overall issues:';
     this.updateIssues();
-    this.initialized = true;
   }
 
   updateIssues(): void {
-    this.scopeService.getIssues(this.query).then(issues => {
+    this.scopeService.issuesGet(this.query).then(issues => {
       this.issues = issues;
       this.rows = issues;
     });
@@ -50,9 +48,6 @@ export class IssuesComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     // Re-query for the issues if the query param changes
     // Only do this for changes to the query param after initialization
-    if (!this.initialized) {
-      return;
-    }
     if ('query' in changes) {
       this.updateIssues();
     }

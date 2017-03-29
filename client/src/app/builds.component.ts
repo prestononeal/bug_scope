@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router }                   from '@angular/router';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Router }                                             from '@angular/router';
 
-import { Build }                    from './build'
-import { ScopeService }             from './scope.service'
+import { Build }                                              from './build'
+import { ScopeService }                                       from './scope.service'
 
 @Component({
   selector: 'builds',
   templateUrl: './builds.component.html',
   providers: [ ScopeService ]
 })
-export class BuildsComponent implements OnInit{
+export class BuildsComponent implements OnInit, OnChanges{
   public rows: Array<any> = [];
   public columns: Array<any> = [
     { title: 'ID', name: 'id' },
@@ -33,12 +33,19 @@ export class BuildsComponent implements OnInit{
   ngOnInit(): void {
     this.msg = this.msg || 'Most recent builds:';
     if (this.builds == null) {
-      this.scopeService.getBuilds().then(builds => {
-        this.builds = builds
-        this.rows = builds
+      this.scopeService.buildsGet().then(builds => {
+        this.builds = builds;
+        this.rows = this.builds;
       });
     } else {
       this.rows = this.builds;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // If builds were passed into this component, watch them for changes
+    if ('builds' in changes) {
+      this.rows = this.builds
     }
   }
 

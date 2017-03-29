@@ -1,15 +1,60 @@
 <div *ngIf="issue">
-  <h3>{{ msg }}</h3>
-  <ul>
-    <li>Total hits: {{ issue.hit_count }}</li>
-    <li>Type: {{ issue.issue_type }}</li>
-    <li>Type: {{ issue.signature }}</li>
-    <li>Notes: {{ issue.notes }}</li>
-    <li>Ticket: {{ issue.ticket }}</li>
-    <li>Merge to: </li>
-  </ul>
-
-  <builds [msg]="'Found on builds:'" [builds]="issue.builds"></builds>
-
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>{{ msg }}</h3>
+      <table class="table table-striped table-bordered">
+        <tbody>
+          <tr>
+            <th>Total hits:</th>
+            <td>{{ issue.hit_count }}</td>
+          </tr>
+          <tr>
+            <th>Type:</th>
+            <td>{{ issue.issue_type }}</td>
+          </tr>
+          <tr>
+            <th>Signature</th>
+            <td>{{ issue.signature }}</td>
+          </tr>
+          <tr>
+            <th>Note:</th>
+            <td>
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="notePending" aria-describedby="note">
+                <div *ngIf="issue.note != notePending">
+                  <span class="input-group-addon" id="note" (click)="updateRemoteIssueData({note: this.notePending})">Save</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Ticket:</th>
+            <td>
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="ticketPending" aria-describedby="ticket">
+                <div *ngIf="issue.ticket != ticketPending">
+                  <span class="input-group-addon" id="ticket" (click)="updateRemoteIssueData({ticket: this.ticketPending})">Save</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Merge to:</th>
+            <td>
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="mergeToPending" aria-describedby="mergeTo">
+                <div *ngIf="mergeToPending">
+                  <span class="input-group-addon" id="mergeTo" (click)="mergeTo()">Save</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6">
+      <builds [msg]="'Found on builds:'" [builds]="issue.builds"></builds>
+    </div>
+  </div>
   <issues [msg]="'Similar issues:'" [query]="'/' + issue.id + '/similar_to'"></issues>
 </div>
