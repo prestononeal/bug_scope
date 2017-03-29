@@ -33,7 +33,7 @@ Installation steps (client):
 
 Development set-up steps:
 
-1.`npm install -g @angular/cli`
+1. `npm install -g @angular/cli`
 2. `ng serve --open`
 
 Production deployment (POSIX):
