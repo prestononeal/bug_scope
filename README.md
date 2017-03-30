@@ -8,7 +8,7 @@ The cumulative total of all issues across all builds can be viewed in aggregate,
 
 Tickets can be attached to issues (eg. a scrum task), and duplicate issues can be merged together. When viewing a specific issue, similar issues based on the signature will be displayed to provide hints of possible duplicates in other builds.
 
-Installation steps (server):
+Installation steps for development (server):
 
 1. Install [rbenv](https://github.com/rbenv/rbenv#installation)
 2. `rbenv install 2.3.1`
@@ -25,19 +25,21 @@ Running server test cases:
 
 1. `bundle exec rspec` (all tests should pass)
 
-Installation steps (client):
+Installation steps for development (client):
 
 1. Install node.js
 2. Install npm
-3. `npm install` from `/client` root
+3. Go to `client` folder
+4. `npm install -g @angular/cli`
+5. `ng serve --open`
 
-Development set-up steps:
+Production deployment (POSIX, using Rails to serve client assets):
 
-1. `npm install -g @angular/cli`
-2. `ng serve --open`
+1. Define `scope_database_username`, and `scope_database_password` in config/application.yml.
+2. Build and deploy client side assets by running `npm run build:rails` inside the `client` folder
+3. Set up and start deployment server (nginx, etc)
 
-Production deployment (POSIX):
+Production deployment (Heroku API/Github client):
 
-1. Define `ticket_base_url`, `secret_key_base`, `scope_database_usename`, and `scope_database_password` in config/application.yml. This is the base link to your ticketing system.
-2. Build and deploy client side assets by running `npm run deploy` inside the `client` folder
-3. Start deployment server (nginx, etc)
+1. The node packages and Heroku buildpacks were configured as described [here](https://www.angularonrails.com/deploy-angular-cli-webpack-project-heroku/)
+
