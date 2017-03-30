@@ -37,7 +37,7 @@ Installation steps for development (client):
 Production deployment (POSIX, using Rails to serve client assets):
 
 1. Define `scope_database_username`, and `scope_database_password` in config/application.yml.
-2. Build and deploy client side assets by running `npm run build:rails` inside the `client` folder
+2. Build and deploy client side assets by running `ng build --prod` inside the `client` folder
 3. Set up and start deployment server (nginx, etc)
 
 Production deployment (Heroku API/Github client):
