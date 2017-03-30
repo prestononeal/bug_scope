@@ -30,8 +30,9 @@ Installation steps for development (client):
 1. Install node.js
 2. Install npm
 3. Go to `client` folder
-4. `npm install -g @angular/cli`
-5. `ng serve --open`
+4. `npm install`
+5. `npm install -g @angular/cli`
+6. `ng serve --open`
 
 Production deployment (POSIX, using Rails to serve client assets):
 
