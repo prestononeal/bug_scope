@@ -34,6 +34,7 @@ export class IssueDetailComponent implements OnInit{
     this.issue = issue;
     this.notePending = this.issue.note;
     this.ticketPending = this.issue.ticket;
+    this.mergeToPending = '';
     this.msg = `Info for Issue #${this.issue.id}`
   }
 
