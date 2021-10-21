@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :issue_faker, class: 'Issue' do
     issue_type { ['watchdog', 'fatalassert', 'hardfault'].sample }
     signature { Faker::Internet.domain_name }

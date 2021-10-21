@@ -11,15 +11,15 @@ Tickets can be attached to issues (eg. a scrum task), and duplicate issues can b
 Installation steps for development (server):
 
 1. Install [rbenv](https://github.com/rbenv/rbenv#installation)
-2. `rbenv install 2.3.1`
-3. `rbenv global 2.3.1` (or `rbenv local 2.3.1`)
-3. `gem install bundler`
-4. `rbenv rehash`
-4. Install [postgres](https://www.postgresql.org/download/)
-5. `bundle install`
-6. `bundle exec rake db:create db:migrate`
-7. (optional) `bundle exec rake db:seed` to seed the database with some data
-8. `bundle exec rails start`
+2. `rbenv install 2.6.8`
+3. `rbenv global 2.6.8` (or `rbenv local 2.6.8`)
+4. `gem install bundler`
+5. `rbenv rehash`
+6. Install [postgres](https://www.postgresql.org/download/)
+7. `bundle install`
+8. `bundle exec rake db:create db:migrate`
+9. (optional) `bundle exec rake db:seed` to seed the database with some data
+10. `bundle exec rails start`
 
 Running server test cases:
 
@@ -43,4 +43,3 @@ Production deployment (POSIX, using Rails to serve client assets):
 Production deployment (Heroku API/Github client):
 
 1. The node packages and Heroku buildpacks were configured as described [here](https://www.angularonrails.com/deploy-angular-cli-webpack-project-heroku/)
-

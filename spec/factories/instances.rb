@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :instance_faker, class: 'Instance' do
     found_at { Faker::Time.between(60.days.ago, Date.today, :all) }
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Issue, :model do
   include_context "db_cleanup", :transaction
   before(:all) do
-    @issue = FactoryGirl.create(:issue)
+    @issue = FactoryBot.create(:issue)
   end
   let(:issue) { Issue.find(@issue.id) }
 

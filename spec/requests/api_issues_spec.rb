@@ -52,7 +52,7 @@ describe "Issue API", :request do
 
   context "caller requests list of Issues" do
     it "returns all Issues sorted by descending hit counts" do
-      build = FactoryGirl.create(:build)
+      build = FactoryBot.create(:build)
       # The first issue by ID will have the least hits, the last will have the most
       issues = (1..5).map do |idx| 
         iss = build.issues.create(:issue_type=>"test_type_#{idx}", 
@@ -74,10 +74,10 @@ describe "Issue API", :request do
     end
 
     it "returns all Issues with build specific hit counts" do
-      build1 = FactoryGirl.create(:build)
-      build2 = FactoryGirl.create(:build)
+      build1 = FactoryBot.create(:build)
+      build2 = FactoryBot.create(:build)
 
-      issue = FactoryGirl.create(:issue)
+      issue = FactoryBot.create(:issue)
 
       5.times { issue.instances.create(:build=>build1) }
       10.times { issue.instances.create(:build=>build2) }
@@ -104,8 +104,8 @@ describe "Issue API", :request do
 
   context "caller reports" do
     it "a new Issue with valid params" do
-      iss = FactoryGirl.build(:issue)
-      bld = FactoryGirl.build(:build)
+      iss = FactoryBot.build(:issue)
+      bld = FactoryBot.build(:build)
       new_issue_params = {
         :issue_info => {
           :issue_type => iss[:issue_type],
@@ -130,7 +130,7 @@ describe "Issue API", :request do
     end
 
     it "a new Issue with invalid params" do
-      iss = FactoryGirl.build(:issue)
+      iss = FactoryBot.build(:issue)
       jpost self.issues_path + "/report", iss.attributes
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.content_type).to eq("application/json")
@@ -141,7 +141,7 @@ describe "Issue API", :request do
     end
 
     it "a known Issue" do
-      bld = FactoryGirl.create(:build)
+      bld = FactoryBot.create(:build)
       iss = bld.issues.create(:issue_type=>"test_type", 
                               :signature=>"test_sig")
       expect(iss.instances.count).to eq(1)
@@ -164,10 +164,10 @@ describe "Issue API", :request do
 
   context "caller marks Issue as duplicate to parent" do
     before(:each) do
-      @build1 = FactoryGirl.create(:build)
+      @build1 = FactoryBot.create(:build)
       @issue1 = @build1.issues.create(
         :issue_type=>"test_type1", :signature=>"test_sig1")
-      @build2 = FactoryGirl.create(:build)
+      @build2 = FactoryBot.create(:build)
       @issue2 = @build2.issues.create(
         :issue_type=>"test_type2", :signature=>"test_sig2")
     end
@@ -196,8 +196,8 @@ describe "Issue API", :request do
 
   context "caller requests specific Issue info" do
     before(:each) do
-      @builds = (1..5).map { FactoryGirl.create(:build) }
-      @issue = FactoryGirl.create(:issue)
+      @builds = (1..5).map { FactoryBot.create(:build) }
+      @issue = FactoryBot.create(:issue)
       @builds.each { |bld| @issue.instances.create(:build=>bld) }
     end
 

@@ -3,9 +3,9 @@ require 'rails_helper'
 describe Instance, :model do
   include_context "db_cleanup", :transaction
   before(:all) do
-    issue = FactoryGirl.create(:issue)
-    build = FactoryGirl.create(:build)
-    @instance = FactoryGirl.create(:instance, :issue_id=>issue.id, 
+    issue = FactoryBot.create(:issue)
+    build = FactoryBot.create(:build)
+    @instance = FactoryBot.create(:instance, :issue_id=>issue.id, 
       :build_id=>build.id)
   end
   let(:instance) { Instance.find(@instance.id) }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :build_faker, class: 'Build' do
     name { Faker::Number.between(1, 10) }
     branch { Faker::Team.state }

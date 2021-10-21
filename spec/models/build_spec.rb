@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Build, :model do
   include_context "db_cleanup", :transaction
   before(:all) do
-    @build = FactoryGirl.create(:build)
+    @build = FactoryBot.create(:build)
   end
   let(:build) { Build.find(@build.id) }
 

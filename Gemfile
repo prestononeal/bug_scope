@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.6.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use postgresql as the database for Active Record
@@ -9,7 +9,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 
 gem 'database_cleaner', '~>1.5', '>=1.5.3'
-gem 'factory_girl_rails', '~>4.7', '>=4.7.0'
+gem 'factory_bot_rails', '~>4.8', '>=4.8.2'
 gem 'faker', '~>1.6', '>=1.6.6'
 
 gem 'figaro', '~>1.1', '>=1.1.1'
