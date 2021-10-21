@@ -2,11 +2,16 @@ source 'https://rubygems.org'
 
 ruby '2.6.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.2', '>= 5.2.6'
 # Use postgresql as the database for Active Record
+gem 'activerecord', '>= 5.2.4.5'
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '>= 4.3.9'
+
+gem 'actionpack', '>= 5.2.4.6'
+gem 'activesupport', '>= 5.2.4.3'
+gem 'actionview', '>= 5.2.4.4'
 
 gem 'database_cleaner', '~>1.5', '>=1.5.3'
 gem 'factory_bot_rails', '~>4.8', '>=4.8.2'
@@ -14,7 +19,7 @@ gem 'faker', '~>1.6', '>=1.6.6'
 
 gem 'figaro', '~>1.1', '>=1.1.1'
 
-gem 'rack-cors', '~>0.4', '>=0.4.1'
+gem 'rack-cors', '>= 1.0.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
